@@ -1,0 +1,31 @@
+Cheat sheet for git on commnad line
+
+Environment setup
+
+Register on github, make your email adress invisible under settings and request Robert to add you to the MagnifiSing repository.
+
+Install git.
+
+In linux(ubuntu/debian/..) issue command:
+sudo apt-get install git
+For other operating systems:
+https://git-scm.com/downloads
+(not tested)
+
+Clone repository.
+
+Move into your folder where you keep all your projects
+and issue command:
+git clone https://github.com/Vorxil/MagnifiSing
+This will clone the public MagnifiSing repository to
+your own machine.
+
+
+
+Commands you will use the most:
+
+git status - gives you useful information about current state
+git add [file] - adds a modified file to the commit object
+git commit - creates a commit object based on all added modifications
+git push - push in latest commit object to public repository
+git pull - pull the latest modifications from public repository
