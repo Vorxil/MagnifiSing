@@ -26,4 +26,6 @@ Commands you will use the most:
 
 git status - gives you useful information about current state
 git add [file] - adds a modified file to the commit object
-git 
+git commit - creates a commit object based on all added modifications
+git push - push in latest commit object to public repository
+git pull - pull the latest modifications from public repository
