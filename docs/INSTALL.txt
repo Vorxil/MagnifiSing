@@ -1,0 +1,19 @@
+INSTALL
+-------
+
+
+For Linux:
+
+Following packages are required in Ubuntu 16.04.
+
+Install compilers etc:
+sudo apt-get install build-essential
+
+Install qt-sdk:
+sudo apt-get install qt-sdk
+
+Get latest QT-version. Follow instructions on:
+https://wiki.qt.io/Install_Qt_5_on_Ubuntu
+
+
+
