@@ -19,6 +19,7 @@ public slots:
     void enterMainMenu();
     void enterSingingMenu();
     void enterHelpMenu();
+    void enterSingingView();
 private:
     Ui::MainWindow *ui;
 };

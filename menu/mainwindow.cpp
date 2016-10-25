@@ -2,6 +2,8 @@
 #include "mainmenuview.h"
 #include "startsingingview.h"
 #include "helpview.h"
+#include "midiview.h"
+#include "singingview.h"
 #include "ui_mainwindow.h"
 #include <QDesktopWidget>
 
@@ -10,6 +12,8 @@
 MainMenuView* mainMenuView;
 StartSingingView* startSingingView;
 HelpView* helpView;
+SingingView* singingView;
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -18,6 +22,8 @@ MainWindow::MainWindow(QWidget *parent) :
     mainMenuView = new MainMenuView();
     startSingingView = new StartSingingView();
     helpView = new HelpView();
+    singingView = new SingingView();
+
 
     ui->setupUi(this);
 
@@ -25,11 +31,14 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->mainLayout->addWidget(mainMenuView);
     ui->mainLayout->addWidget(startSingingView);
     ui->mainLayout->addWidget(helpView);
+    ui->mainLayout->addWidget(singingView);
 
 
     /* Hide the views that should not be displayed */
     startSingingView->hide();
     helpView->hide();
+    singingView->hide();
+
 
     /* Connect all buttons to the correct actions */
     connect(mainMenuView,SIGNAL(startSingingButtonClicked()),this,SLOT(enterSingingMenu()));
@@ -37,31 +46,50 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(mainMenuView,SIGNAL(helpButtonClicked()),this,SLOT(enterHelpMenu()));
 
     connect(startSingingView,SIGNAL(backButtonClicked()),this,SLOT(enterMainMenu()));
+    connect(startSingingView,SIGNAL(chooseSongButtonClicked()),this,SLOT(enterSingingView()));
 
     connect(helpView,SIGNAL(backButtonClicked()),this,SLOT(enterMainMenu()));
+
+    connect(singingView,SIGNAL(menuButtonClicked()),this,SLOT(enterMainMenu()));
+
 
 }
 
 MainWindow::~MainWindow()
 {
+    delete mainMenuView;
+    delete startSingingView;
+    delete helpView;
+    delete singingView;
     delete ui;
 }
 
 void MainWindow::enterMainMenu(){
     startSingingView->hide();
     helpView->hide();
+    singingView->hide();
     mainMenuView->show();
 }
 
 void MainWindow::enterSingingMenu(){
     mainMenuView->hide();
     helpView->hide();
+    singingView->hide();
     startSingingView->show();
 }
 
 void MainWindow::enterHelpMenu(){
     mainMenuView->hide();
     startSingingView->hide();
+    singingView->hide();
     helpView->show();
+
+}
+
+void MainWindow::enterSingingView(){
+    mainMenuView->hide();
+    startSingingView->hide();
+    helpView->hide();
+    singingView->show();
 
 }

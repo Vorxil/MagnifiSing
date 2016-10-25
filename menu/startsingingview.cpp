@@ -18,3 +18,8 @@ void StartSingingView::on_backButton_clicked()
 {
     emit backButtonClicked();
 }
+
+void StartSingingView::on_chooseSongButton_clicked()
+{
+    emit chooseSongButtonClicked();
+}

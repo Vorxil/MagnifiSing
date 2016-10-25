@@ -16,14 +16,20 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     mainmenuview.cpp \
     startsingingview.cpp \
-    helpview.cpp
+    helpview.cpp \
+    midiview.cpp \
+    singingview.cpp
 
 HEADERS  += mainwindow.h \
     mainmenuview.h \
     startsingingview.h \
-    helpview.h
+    helpview.h \
+    midiview.h \
+    singingview.h
 
 FORMS    += mainwindow.ui \
     mainmenuview.ui \
     startsingingview.ui \
-    helpview.ui
+    helpview.ui \
+    midiview.ui \
+    singingview.ui

@@ -18,10 +18,13 @@ public:
 private slots:
     void on_backButton_clicked();
 
+    void on_chooseSongButton_clicked();
+
 private:
     Ui::StartSingingView *ui;
 signals:
     void backButtonClicked();
+    void chooseSongButtonClicked();
 };
 
 #endif // STARTSINGINGVIEW_H
