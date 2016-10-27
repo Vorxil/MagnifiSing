@@ -19,8 +19,10 @@ public:
     void addCorrectTone(int tone, int start, int duration);
     void addWrongTone(int tone, int start, int duration);
 
-
     void testView();
+    void setLyrics(QString lyrics);
+    void resetView();
+
 private:
     Ui::MIDIview *ui;
     void paintEvent(QPaintEvent *event);

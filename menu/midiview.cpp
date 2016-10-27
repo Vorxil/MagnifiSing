@@ -3,6 +3,7 @@
 #include <QPixmap>
 #include <QPainter>
 
+
 QPixmap* px;
 int highestTone;
 int lowestTone;
@@ -15,6 +16,7 @@ MIDIview::MIDIview(QWidget *parent) :
 
     px = new QPixmap(this->width(),this->height());
     px->fill(Qt::white);
+    ui->imageLabel->setPixmap(*px);
 
     testView();
 
@@ -29,27 +31,38 @@ MIDIview::~MIDIview()
 /* Add some tones to test the view */
 void MIDIview::testView(){
 
-    highestTone = 32;
+    highestTone = 30;
     lowestTone = 26;
 
     addTone(26,30,150);
-    addTone(30,200,80);
-    addTone(32,310,200);
+    addTone(28,200,80);
+    addTone(30,280,100);
+    addTone(29,390,200);
+    addTone(28,590,120);
 
     addCorrectTone(26,30,50);
-    addWrongTone(27,85,45);
+    addWrongTone(27,90,10);
     addCorrectTone(26,130,50);
 
-    addWrongTone(29,210,20);
-    addCorrectTone(30,230,50);
+    addWrongTone(26,210,20);
+    addCorrectTone(28,230,50);
 
-    addWrongTone(34,310,100);
-    addWrongTone(33,410,90);
+    addCorrectTone(30,280,70);
+
+    setLyrics(QString("This is some example lyrics"));
+
+//    resetView();
+//    setLyrics(QString("This is some other lyrics"));
+
 }
 
 void MIDIview::paintEvent(QPaintEvent *event){
 
 
+}
+void MIDIview::resetView(){
+    px->fill(Qt::white);
+    ui->imageLabel->setPixmap(*px);
 }
 
 void MIDIview::addTone(int tone, int start, int duration){
@@ -95,3 +108,16 @@ void MIDIview::addWrongTone(int tone, int start, int duration){
     ui->imageLabel->setPixmap(*px);
 }
 
+void MIDIview::setLyrics(QString lyrics){
+
+    QPainter p(px);
+    QFont f;
+    f.setFamily("Arial");
+    f.setPixelSize(30);
+    p.setFont(f);
+
+    // draw text at the lowest 25% of widget
+    p.drawText(QRect(0,0.85*px->height(),px->width(),0.25*px->height()),Qt::AlignHCenter,lyrics);
+    ui->imageLabel->setPixmap(*px);
+
+}
