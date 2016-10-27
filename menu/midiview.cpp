@@ -117,7 +117,7 @@ void MIDIview::setLyrics(QString lyrics){
     p.setFont(f);
 
     // draw text at the lowest 25% of widget
-    p.drawText(QRect(0,0.85*px->height(),px->width(),0.25*px->height()),Qt::AlignHCenter,lyrics);
+    p.drawText(QRect(0,0.75*px->height(),px->width(),0.25*px->height()),Qt::AlignCenter,lyrics);
     ui->imageLabel->setPixmap(*px);
 
 }
