@@ -9,12 +9,14 @@
 class audioinput : public QObject
 {
     Q_OBJECT
+private:
+    void printBufferData();
 public:
     audioinput();
     ~audioinput();
 
 public Q_SLOTS:
-    void readMore();
+    const quint16* readMore();
     void stopRecording();
 };
 
