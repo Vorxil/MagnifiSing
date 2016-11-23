@@ -70,7 +70,11 @@ double cepsDWT::detectPitchFrequency(const double *src, double fs) {
     for(int k=1;k <= m_dwtLevels; k++) {
         len = len/2;
         for(int i=0;i < len; i++) {
-            dwtBuffer[i] = (std::real(fftBuffer[2*i]) + std::real(fftBuffer[2*i+1]))/2;
+            if (k > 1) {
+                dwtBuffer[i] = (dwtBuffer[2*i] + dwtBuffer[2*i+1])/2;
+            } else {
+                dwtBuffer[i] = (std::real(fftBuffer[2*i]) + std::real(fftBuffer[2*i+1]))/2;
+            }
         }
     }
 
