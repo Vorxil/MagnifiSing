@@ -15,7 +15,7 @@ QByteArray *m_buffer;
 QIODevice *m_input;
 QAudioDeviceInfo device_info;
 QAudioFormat format;
-cepsDWT cepsdwt(1024,4);
+cepsDWT cepsdwt(1024,3);
 
 
 const int BufferSize = 2048;

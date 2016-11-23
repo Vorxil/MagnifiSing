@@ -58,7 +58,7 @@ double cepsDWT::detectPitchFrequency(const double *src, double fs) {
 
     //Calculate cepstrum
     for(int i=0;i < m_length; i++) {
-        dwtBuffer[i] = std::log(std::norm(fftBuffer[i]) + EPSILON);
+        dwtBuffer[i] = 20*std::log(std::norm(fftBuffer[i]) + EPSILON);
     }
     fftBuffer = fftObj->fft(dwtBuffer.data());
     for(int i=0;i < m_length; i++) {
