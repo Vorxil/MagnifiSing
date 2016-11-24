@@ -18,6 +18,7 @@ public:
     void addTone(int tone, int start, int duration);
     void addCorrectTone(int tone, int start, int duration);
     void addWrongTone(int tone, int start, int duration);
+    void setToneInterval(int lowestFrequency,int highestFrequency);
 
     void testView();
     void setLyrics(QString lyrics);

@@ -93,3 +93,7 @@ void MainWindow::enterSingingView(){
     singingView->show();
 
 }
+
+SingingView* MainWindow::getSingingView(){
+    return singingView;
+}

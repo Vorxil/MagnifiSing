@@ -2,11 +2,14 @@
 #include "ui_midiview.h"
 #include <QPixmap>
 #include <QPainter>
+#include <QDebug>
+#include "math.h"
 
 
 QPixmap* px;
 int highestTone;
 int lowestTone;
+double timeWindow;
 
 MIDIview::MIDIview(QWidget *parent) :
     QWidget(parent),
@@ -18,7 +21,9 @@ MIDIview::MIDIview(QWidget *parent) :
     px->fill(Qt::white);
     ui->imageLabel->setPixmap(*px);
 
-    testView();
+    timeWindow = 0; // Time shown starts from 0 seconds
+
+    //testView();
 
 }
 
@@ -34,20 +39,20 @@ void MIDIview::testView(){
     highestTone = 30;
     lowestTone = 26;
 
-    addTone(26,30,150);
-    addTone(28,200,80);
-    addTone(30,280,100);
-    addTone(29,390,200);
-    addTone(28,590,120);
+    addTone(26,300,1500);
+    addTone(28,2000,800);
+    addTone(30,2800,1000);
+    addTone(29,3900,2000);
+    addTone(28,5900,1200);
 
-    addCorrectTone(26,30,50);
-    addWrongTone(27,90,10);
-    addCorrectTone(26,130,50);
+    addCorrectTone(26,300,500);
+    addWrongTone(27,900,100);
+    addCorrectTone(26,1300,500);
 
-    addWrongTone(26,210,20);
-    addCorrectTone(28,230,50);
+    addWrongTone(26,2100,200);
+    addCorrectTone(28,2300,500);
 
-    addCorrectTone(30,280,70);
+    addCorrectTone(30,2800,700);
 
     setLyrics(QString("This is some example lyrics"));
 
@@ -57,7 +62,14 @@ void MIDIview::testView(){
 }
 
 void MIDIview::paintEvent(QPaintEvent *event){
-
+    QPainter p(px);
+    QFont f;
+    f.setFamily("Arial");
+    f.setPixelSize(15);
+    p.setFont(f);
+    p.drawText(10,px->height()*0.25,"1000 Hz");
+    p.drawText(10,px->height()*0.75,"0 Hz");
+    ui->imageLabel->setPixmap(*px);
 
 }
 void MIDIview::resetView(){
@@ -65,46 +77,100 @@ void MIDIview::resetView(){
     ui->imageLabel->setPixmap(*px);
 }
 
+/* Add a tone to the MIDI view.
+ * start and duration are given in milliseconds*/
 void MIDIview::addTone(int tone, int start, int duration){
 
-    // Scales the y axis so that all correct tones are displayed at coordinates between 25% and 75% of widget height
-    int diff = highestTone - lowestTone;
-    int sFactor = px->height()/(diff*2);
+    /* Clear the view if restarting from beginning of screen */
+    if(start/1000.0 > timeWindow+10){
+        timeWindow = floor(start/10000)*10;
+        resetView();
+    }
+
+
+    /* Scale the y axis so that all correct tones are displayed at coordinates between 25% and 75% of widget height */
+    double diff = highestTone - lowestTone;
+    double sFactor = px->height()/(diff*2);
     int y = px->height()-(0.25*px->height()+(tone-lowestTone)*sFactor);
+
+
+    /* Scale the x axis so that the length of the axis = 10 seconds */
+    int x1 = px->width()*(start % 10000)/(double)10000;
+    int x2 = px->width()*((start+duration) % 10000)/(double)10000;
+
+    if(x1 > x2){
+        return;
+    }
 
 
     QPainter p(px);
     QPen pen(Qt::gray,14,Qt::SolidLine,Qt::FlatCap, Qt::BevelJoin);
     p.setPen(pen);
-    p.drawLine(start,y,start+duration,y);
+    p.drawLine(x1,y,x2,y);
     ui->imageLabel->setPixmap(*px);
 }
 
+/* Add a correct tone to the MIDI view.
+ * start and duration are given in milliseconds*/
 void MIDIview::addCorrectTone(int tone, int start, int duration){
 
-    // Scales the y axis so that all correct tones are displayed at coordinates between 25% and 75% of widget height
-    int diff = highestTone - lowestTone;
-    int sFactor = px->height()/(diff*2);
+    /* Clear the view if restarting from beginning of screen */
+    if(start/1000.0 > timeWindow+10){
+        timeWindow = floor(start/10000)*10;
+        resetView();
+    }
+
+    /* Scale the y axis so that all correct tones are displayed at coordinates between 25% and 75% of widget height */
+    double diff = highestTone - lowestTone;
+    double sFactor = px->height()/(diff*2);
     int y = px->height()-(0.25*px->height()+(tone-lowestTone)*sFactor);
 
+
+    /* Scale the x axis so that the length of the axis = 10 seconds */
+    int x1 = px->width()*(start % 10000)/(double)10000;
+    int x2 = px->width()*((start+duration) % 10000)/(double)10000;
+
+    if(x1 > x2){
+        return;
+    }
+
+
+
     QPainter p(px);
-    QPen pen(QBrush(QColor(0,150,0,120)),18,Qt::SolidLine,Qt::RoundCap, Qt::BevelJoin);
+    QPen pen(QBrush(QColor(0,150,0,120)),18,Qt::SolidLine,Qt::FlatCap, Qt::BevelJoin);
     p.setPen(pen);
-    p.drawLine(start,y,start+duration,y);
+    p.drawLine(x1,y,x2,y);
     ui->imageLabel->setPixmap(*px);
 }
 
+/* Add a wrong tone to the MIDI view.
+ * start and duration are given in milliseconds*/
 void MIDIview::addWrongTone(int tone, int start, int duration){
 
-    // Scales the y axis so that all correct tones are displayed at coordinates between 25% and 75% of widget height
-    int diff = highestTone - lowestTone;
-    int sFactor = px->height()/(diff*2);
+    /* Clear the view if restarting from beginning of screen */
+    if(start/1000.0 > timeWindow+10){
+        timeWindow = floor(start/10000)*10;
+        resetView();
+    }
+
+    /* Scale the y axis so that all correct tones are displayed at coordinates between 25% and 75% of widget height */
+    double diff = highestTone - lowestTone;
+    double sFactor = px->height()/(diff*2);
     int y = px->height()-(0.25*px->height()+(tone-lowestTone)*sFactor);
 
+
+    /* Scale the x axis so that the length of the axis = 10 seconds */
+    int x1 = px->width()*(start % 10000)/(double)10000;
+    int x2 = px->width()*((start+duration) % 10000)/(double)10000;
+
+    if(x1 > x2){
+        return;
+    }
+
     QPainter p(px);
-    QPen pen(QBrush(QColor(200,0,0,160)),18,Qt::SolidLine,Qt::RoundCap, Qt::BevelJoin);
+    QPen pen(QBrush(QColor(200,0,0,160)),18,Qt::SolidLine,Qt::FlatCap, Qt::BevelJoin);
     p.setPen(pen);
-    p.drawLine(start,y,start+duration,y);
+    p.drawLine(x1,y,x2,y);
     ui->imageLabel->setPixmap(*px);
 }
 
@@ -120,4 +186,9 @@ void MIDIview::setLyrics(QString lyrics){
     p.drawText(QRect(0,0.75*px->height(),px->width(),0.25*px->height()),Qt::AlignCenter,lyrics);
     ui->imageLabel->setPixmap(*px);
 
+}
+
+void MIDIview::setToneInterval(int lowestFrequency,int highestFrequency){
+    lowestTone = lowestFrequency;
+    highestTone = highestFrequency;
 }

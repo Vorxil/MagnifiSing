@@ -1,22 +1,17 @@
 #include "audioinput.h"
-#include <iostream>
 #include <QAudio>
 #include <QAudioInput>
 #include <QAudioDeviceInfo>
 #include <QDebug>
 #include <QObject>
-#include <QTimer>
 #include <QAudioBuffer>
-#include "cepsdwt.h"
-#include "math.h"
+
 
 QAudioInput* m_audioInput;
 QByteArray *m_buffer;
 QIODevice *m_input;
 QAudioDeviceInfo device_info;
 QAudioFormat format;
-cepsDWT cepsdwt(1024,3);
-
 
 const int BufferSize = 2048;
 
@@ -33,7 +28,7 @@ audioinput::audioinput()
     format.setSampleSize(16);
     format.setCodec("audio/pcm");
     format.setByteOrder(QAudioFormat::LittleEndian);
-    format.setSampleType(QAudioFormat::UnSignedInt);
+    format.setSampleType(QAudioFormat::SignedInt);
 
 
     if (!device_info.isFormatSupported(format)) {
@@ -45,8 +40,7 @@ audioinput::audioinput()
     m_audioInput->setBufferSize(10240);
     m_input = m_audioInput->start();
 
-    connect(m_input, SIGNAL(readyRead()), this, SLOT(readMore()));
-    QTimer::singleShot(10000, this, SLOT(stopRecording()));  //Stop audio input after 10 seconds
+    connect(m_input, SIGNAL(readyRead()), this, SLOT(emitReadyReadSignal()));
 }
 
 audioinput::~audioinput(){
@@ -55,10 +49,10 @@ audioinput::~audioinput(){
 }
 
 /* Read the available input and return a pointer to the data*/
-const quint16* audioinput::readMore()
+double* audioinput::readMore()
 {
     if (!m_audioInput)
-        return (quint16)0;
+        return 0;
     qint64 len = m_audioInput->bytesReady();
     if (len > BufferSize)
         len = BufferSize;
@@ -67,57 +61,39 @@ const quint16* audioinput::readMore()
 
         QAudioBuffer audioBuffer(*m_buffer,format,(qint64)-1);
 
-//        qDebug() << "duration" << audioBuffer.duration();
-//        qDebug() << "byteCount" << audioBuffer.byteCount();
-//        qDebug() << "format" << audioBuffer.format();
-//        qDebug() << "samplecount" << audioBuffer.sampleCount();
-//        qDebug() << " ";
+        const qint16 *dataPtr = audioBuffer.constData<qint16>();
 
-
-        const quint16 *dataPtr = audioBuffer.constData<quint16>();
-
-        /* Calculate and print pitch frequency */
-        double samples[1024];
+        /* Convert the samples to double */
         for(int i = 0;i<1024;i++){
             samples[i] = (double)dataPtr[i];
         }
-        std::cout << "\nPitch freq = " << cepsdwt.detectPitchFrequency(samples,8000);
 
-        /* Test the pitch detection with a sine wave */
-        double time;
-        double y[1024];
-        double f = 1000;
-        double fs = 8000;
-
-        for(int i = 0;i<1024;i++){
-            time = i*1/fs;
-            y[i] = sin(f*time);
-        }
-        std::cout << "\nSine wave freq = " << cepsdwt.detectPitchFrequency(y,8000) << "\n";
-
-
-        return dataPtr;
+        return samples;
 
     }
-    return (quint16)0;
+    return 0;
 }
 
 void audioinput::stopRecording(){
     m_audioInput->stop();
-    qDebug() << "Stopped recording";
-
+    qDebug() << "\nStopped recording";
 
     //printBufferData();
+}
 
-
+void audioinput::emitReadyReadSignal(){
+    emit readyRead();
 }
 
 /* Print the data in the buffer to the screen */
 void audioinput::printBufferData(){
 
     QAudioBuffer audioBuffer(*m_buffer,format,(qint64)-1);
-    const quint16 *data = audioBuffer.constData<quint16>();
-    for(int i = 0;i<audioBuffer.frameCount();i++){
-        std::cout << " " << data[i] << " ";
+    const qint16 *data = audioBuffer.constData<qint16>();
+
+    qDebug() << "Data in buffer: ";
+
+    for(int i = 0;i<audioBuffer.frameCount();i=i+8){
+        qDebug() << data[i] << data[i+1] << data[i+2] << data[i+3] << data[i+4] << data[i+5] << data[i+6] << data[i+7];
     }
 }

@@ -25,3 +25,6 @@ void SingingView::on_menuButton_clicked()
     emit menuButtonClicked();
 }
 
+MIDIview* SingingView::getMidiView(){
+    return midiView;
+}

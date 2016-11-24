@@ -2,6 +2,7 @@
 #define SINGINGVIEW_H
 
 #include <QWidget>
+#include "midiview.h"
 
 namespace Ui {
 class SingingView;
@@ -14,6 +15,7 @@ class SingingView : public QWidget
 public:
     explicit SingingView(QWidget *parent = 0);
     ~SingingView();
+    MIDIview* getMidiView();
 
 private slots:
     void on_menuButton_clicked();

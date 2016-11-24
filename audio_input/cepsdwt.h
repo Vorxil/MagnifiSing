@@ -6,7 +6,7 @@
 #include <memory>
 
 #define EPSILON 0.00000001
-#define SILENT_THRESHOLD 0.1
+#define SILENT_THRESHOLD 30
 
 class cepsDWT : PitchFreqDetector {
 private:

@@ -11,13 +11,19 @@ class audioinput : public QObject
     Q_OBJECT
 private:
     void printBufferData();
+    double samples[1024];
+
 public:
     audioinput();
     ~audioinput();
 
+signals:
+    void readyRead();
+
 public Q_SLOTS:
-    const quint16* readMore();
+    double *readMore();
     void stopRecording();
+    void emitReadyReadSignal();
 };
 
 #endif // AUDIOINPUT_H
