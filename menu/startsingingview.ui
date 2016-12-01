@@ -65,6 +65,12 @@
      </item>
      <item alignment="Qt::AlignHCenter">
       <widget class="QPushButton" name="chooseSongButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="minimumSize">
         <size>
          <width>100</width>
@@ -73,8 +79,8 @@
        </property>
        <property name="maximumSize">
         <size>
-         <width>100</width>
-         <height>35</height>
+         <width>16777215</width>
+         <height>16777215</height>
         </size>
        </property>
        <property name="font">
@@ -89,6 +95,12 @@
      </item>
      <item alignment="Qt::AlignHCenter">
       <widget class="QPushButton" name="backButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="minimumSize">
         <size>
          <width>100</width>
