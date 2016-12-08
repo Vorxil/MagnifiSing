@@ -6,6 +6,9 @@
 #include <QObject>
 #include <QAudioBuffer>
 
+#define SAMPLE_RATE 16000
+#define SAMPLE_SIZE 16
+#define RETURN_SIZE 1024        // Number of samples returned when calling readMore()
 
 QAudioInput* m_audioInput;
 QByteArray *m_buffer;
@@ -13,7 +16,7 @@ QIODevice *m_input;
 QAudioDeviceInfo device_info;
 QAudioFormat format;
 
-const int BufferSize = 2048;
+const int BufferSize = RETURN_SIZE*SAMPLE_SIZE/8;
 
 /* Setup the audio input */
 audioinput::audioinput()
@@ -23,9 +26,9 @@ audioinput::audioinput()
     device_info = QAudioDeviceInfo::defaultInputDevice();
 
 
-    format.setSampleRate(8000);
+    format.setSampleRate(SAMPLE_RATE);
     format.setChannelCount(1);
-    format.setSampleSize(16);
+    format.setSampleSize(SAMPLE_SIZE);
     format.setCodec("audio/pcm");
     format.setByteOrder(QAudioFormat::LittleEndian);
     format.setSampleType(QAudioFormat::SignedInt);
@@ -37,7 +40,7 @@ audioinput::audioinput()
     }
 
     m_audioInput = new QAudioInput(device_info, format, this);
-    m_audioInput->setBufferSize(10240);
+    m_audioInput->setBufferSize(BufferSize*5);
     m_input = m_audioInput->start();
 
     connect(m_input, SIGNAL(readyRead()), this, SLOT(emitReadyReadSignal()));
@@ -64,7 +67,7 @@ double* audioinput::readMore()
         const qint16 *dataPtr = audioBuffer.constData<qint16>();
 
         /* Convert the samples to double */
-        for(int i = 0;i<1024;i++){
+        for(int i = 0;i<RETURN_SIZE;i++){
             samples[i] = (double)dataPtr[i];
         }
 
