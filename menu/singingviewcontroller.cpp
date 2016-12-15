@@ -16,7 +16,7 @@
 
 
 cepsDWT cepsdwt(1024,4);
-QTime time;
+QTime m_time;
 
 
 SingingViewController::SingingViewController(SingingView* singingView)
@@ -34,7 +34,7 @@ SingingViewController::SingingViewController(SingingView* singingView)
 
 
     /* Measure elapsed time */
-    time.start();
+    m_time.start();
 
 }
 
@@ -52,6 +52,6 @@ void SingingViewController::readSamples(){
 
 void SingingViewController::updateMidiView(){
     if(frequency != 0){
-        midiView->addCorrectTone(int(frequency),time.elapsed(),updateInterval);
+        midiView->addCorrectTone(int(frequency),m_time.elapsed(),updateInterval);
     }
 }

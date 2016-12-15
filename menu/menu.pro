@@ -41,15 +41,15 @@ FORMS    += mainwindow.ui \
     midiview.ui \
     singingview.ui
 
-
+unix:QMAKE_CXXFLAGS += -std=c++0x
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../Aquila/build-aquila-src-Desktop_Qt_5_7_0_MinGW_32bit-Default/ -lAquila
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../Aquila/build-aquila-src-Desktop_Qt_5_7_0_MinGW_32bit-Default/ -lAquila
-else:unix: LIBS += -L$$PWD/../../Aquila/build-aquila-src-Desktop_Qt_5_7_0_MinGW_32bit-Default/ -lAquila
+else:unix: LIBS += -lAquila
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../Aquila/build-aquila-src-Desktop_Qt_5_7_0_MinGW_32bit-Default/lib/ -lOoura_fft
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../Aquila/build-aquila-src-Desktop_Qt_5_7_0_MinGW_32bit-Default/lib/ -lOoura_fft
-else:unix: LIBS += -L$$PWD/../../Aquila/build-aquila-src-Desktop_Qt_5_7_0_MinGW_32bit-Default/lib/ -lOoura_fft
+else:unix: LIBS += -lOoura_fft
 
 INCLUDEPATH += $$PWD/../../Aquila/aquila-src
 DEPENDPATH += $$PWD/../../Aquila/aquila-src

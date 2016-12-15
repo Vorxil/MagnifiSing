@@ -2,18 +2,17 @@ INSTALL
 -------
 
 
-For Linux:
+For Ubuntu:
 
 Following packages are required in Ubuntu 16.04.
 
 Install compilers etc:
 sudo apt-get install build-essential
 
-Install qt-sdk:
-sudo apt-get install qt-sdk
+Install qt5 and multimedia module:
+sudo apt-get install qtbase5-dev qt5-default qtmultimedia5-dev
 
-Get latest QT-version. Follow instructions on:
-https://wiki.qt.io/Install_Qt_5_on_Ubuntu
-
+Install aquila to /usr or modify menu.pro:
+http://aquila-dsp.org/download/
 
 
