@@ -12,7 +12,6 @@
 #include "Binasc.h"
 #include <sstream>
 #include <string.h>
-#include <cstdlib>
 
 //////////////////////////////
 //
@@ -1305,7 +1304,7 @@ int Binasc::processDecimalWord(ostream& out, const string& word, int lineNum) {
    // the byte if the size of the decimal number is not specified
    if (byteCount == -1) {
       if (signIndex != -1) {
-         long tempLong = std::atoi(&word[quoteIndex + 1]);
+         long tempLong = atoi(&word[quoteIndex + 1]);
          if (tempLong > 127 || tempLong < -128) {
             cerr << "Error on line " << lineNum << " at token: " << word
                  << endl;
@@ -1316,7 +1315,7 @@ int Binasc::processDecimalWord(ostream& out, const string& word, int lineNum) {
          out << charOutput;
          return 1;
       } else {
-         ulong tempLong = (ulong)std::atoi(&word[quoteIndex + 1]);
+         ulong tempLong = (ulong)atoi(&word[quoteIndex + 1]);
          uchar ucharOutput = (uchar)tempLong;
          if (tempLong > 255) { // || (tempLong < 0)) {
             cerr << "Error on line " << lineNum << " at token: " << word
@@ -1333,12 +1332,12 @@ int Binasc::processDecimalWord(ostream& out, const string& word, int lineNum) {
    switch (byteCount) {
       case 1:
          if (signIndex != -1) {
-            long tempLong = std::atoi(&word[quoteIndex + 1]);
+            long tempLong = atoi(&word[quoteIndex + 1]);
             char charOutput = (char)tempLong;
             out << charOutput;
             return 1;
          } else {
-            ulong tempLong = (ulong)std::atoi(&word[quoteIndex + 1]);
+            ulong tempLong = (ulong)atoi(&word[quoteIndex + 1]);
             uchar ucharOutput = (uchar)tempLong;
             out << ucharOutput;
             return 1;
@@ -1346,7 +1345,7 @@ int Binasc::processDecimalWord(ostream& out, const string& word, int lineNum) {
          break;
       case 2:
          if (signIndex != -1) {
-            long tempLong = std::atoi(&word[quoteIndex + 1]);
+            long tempLong = atoi(&word[quoteIndex + 1]);
             short shortOutput = (short)tempLong;
             if (endianIndex == -1) {
                writeBigEndianShort(out, shortOutput);
@@ -1355,7 +1354,7 @@ int Binasc::processDecimalWord(ostream& out, const string& word, int lineNum) {
             }
             return 1;
          } else {
-            ulong tempLong = (ulong)std::atoi(&word[quoteIndex + 1]);
+            ulong tempLong = (ulong)atoi(&word[quoteIndex + 1]);
             ushort ushortOutput = (ushort)tempLong;
             if (endianIndex == -1) {
                writeBigEndianUShort(out, ushortOutput);
@@ -1374,7 +1373,7 @@ int Binasc::processDecimalWord(ostream& out, const string& word, int lineNum) {
                  << endl;
             return 0;
          }
-         ulong tempLong = (ulong)std::atoi(&word[quoteIndex + 1]);
+         ulong tempLong = (ulong)atoi(&word[quoteIndex + 1]);
          uchar byte1 = (tempLong & 0x00ff0000) >> 16;
          uchar byte2 = (tempLong & 0x0000ff00) >>  8;
          uchar byte3 = (tempLong & 0x000000ff);
@@ -1392,7 +1391,7 @@ int Binasc::processDecimalWord(ostream& out, const string& word, int lineNum) {
          break;
       case 4:
          if (signIndex != -1) {
-            long tempLong = std::atoi(&word[quoteIndex + 1]);
+            long tempLong = atoi(&word[quoteIndex + 1]);
             if (endianIndex == -1) {
                writeBigEndianLong(out, tempLong);
             } else {
@@ -1400,7 +1399,7 @@ int Binasc::processDecimalWord(ostream& out, const string& word, int lineNum) {
             }
             return 1;
          } else {
-            ulong tempuLong = (ulong)std::atoi(&word[quoteIndex + 1]);
+            ulong tempuLong = (ulong)atoi(&word[quoteIndex + 1]);
             if (endianIndex == -1) {
                writeBigEndianULong(out, tempuLong);
             } else {
@@ -1623,7 +1622,7 @@ int Binasc::processVlvWord(ostream& out, const string& word, int lineNum) {
            << endl;
       return 0;
    }
-   ulong value = std::atoi(&word[1]);
+   ulong value = atoi(&word[1]);
 
    uchar byte[5];
    byte[0] = (value >> 28) & 0x7f;
