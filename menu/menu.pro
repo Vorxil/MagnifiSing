@@ -51,6 +51,10 @@ win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../Aquila/build-aquila-
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../Aquila/build-aquila-src-Desktop_Qt_5_7_0_MinGW_32bit-Default/lib/ -lOoura_fft
 else:unix: LIBS += -lOoura_fft
 
+DEPENDPATH += midifile
+INCLUDEPATH += midifile
+LIBS += -Lmidifile/ -lmidifile
+
 INCLUDEPATH += $$PWD/../../Aquila/aquila-src
 DEPENDPATH += $$PWD/../../Aquila/aquila-src
 
