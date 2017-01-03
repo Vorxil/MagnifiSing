@@ -17,11 +17,12 @@ private:
     audioinput* audioInput;
 
 public:
-    SingingViewController(SingingView*);
+    SingingViewController(SingingView*singingView);
     ~SingingViewController();
 public Q_SLOTS:
     void readSamples();
     void updateMidiView();
+    void play_pause();
 };
 
 #endif // SINGINGVIEWCONTROLLER_H

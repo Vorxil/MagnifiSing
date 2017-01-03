@@ -3,6 +3,9 @@
 
 #include <QWidget>
 
+#define updateInterval 40   // milliseconds
+#define windowWidth 10000   // milliseconds
+
 namespace Ui {
 class MIDIview;
 }
@@ -15,14 +18,10 @@ public:
     explicit MIDIview(QWidget *parent = 0);
     ~MIDIview();
 
-    void addTone(int tone, int start, int duration);
-    void addCorrectTone(int tone, int start, int duration);
-    void addWrongTone(int tone, int start, int duration);
-    void setToneInterval(int lowestFrequency,int highestFrequency);
-
-    void testView();
+    void setToneInterval(int lowTone, int highTone);
+    int freqToSemitone(double frequency);
     void setLyrics(QString lyrics);
-    void resetView();
+    void addCorrectFrequency(double frequency, int time);
 
 private:
     Ui::MIDIview *ui;

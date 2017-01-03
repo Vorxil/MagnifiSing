@@ -12,29 +12,29 @@
 
 
 #define fs 8000
-#define updateInterval 40
 
 
 cepsDWT cepsdwt(1024,4);
 QTime m_time;
+int total_time;
+QTimer *timer;
+SingingView *singView;
 
 
 SingingViewController::SingingViewController(SingingView* singingView)
 {
+    singView = singingView;
     midiView = singingView->getMidiView();
-    midiView->setToneInterval(0,1000);
+    midiView->setToneInterval(-36,36);
 
     audioInput = new audioinput();
     connect(audioInput,SIGNAL(readyRead()),this,SLOT(readSamples()));
+    connect(singingView,SIGNAL(playButtonClicked()),this,SLOT(play_pause()));
+    connect(singingView,SIGNAL(menuButtonClicked()),this,SLOT(play_pause()));
 
     /* Update MIDI view every updateInterval milliseconds */
-    QTimer *timer = new QTimer(this);
+    timer = new QTimer(this);
     connect(timer,SIGNAL(timeout()),this,SLOT(updateMidiView()));
-    timer->start(updateInterval);
-
-
-    /* Measure elapsed time */
-    m_time.start();
 
 }
 
@@ -51,7 +51,17 @@ void SingingViewController::readSamples(){
 }
 
 void SingingViewController::updateMidiView(){
-    if(frequency != 0){
-        midiView->addCorrectTone(int(frequency),m_time.elapsed(),updateInterval);
+    midiView->addCorrectFrequency(frequency,m_time.elapsed()+total_time);
+}
+
+void SingingViewController::play_pause(){
+    if(timer->isActive()){
+        timer->stop();
+        total_time += m_time.elapsed();
+        singView->setPlayPauseButtonText("Play");
+    }else{
+        timer->start(updateInterval);
+        m_time.restart();
+        singView->setPlayPauseButtonText("Pause");
     }
 }

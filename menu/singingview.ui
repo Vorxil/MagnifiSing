@@ -102,7 +102,7 @@
           </font>
          </property>
          <property name="text">
-          <string>Play/Pause</string>
+          <string>Play</string>
          </property>
         </widget>
        </item>

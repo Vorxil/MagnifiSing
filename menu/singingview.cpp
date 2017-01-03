@@ -28,3 +28,12 @@ void SingingView::on_menuButton_clicked()
 MIDIview* SingingView::getMidiView(){
     return midiView;
 }
+
+void SingingView::on_playButton_clicked()
+{
+    emit playButtonClicked();
+}
+
+void SingingView::setPlayPauseButtonText(QString text){
+    ui->playButton->setText(text);
+}

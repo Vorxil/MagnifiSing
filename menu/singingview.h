@@ -17,12 +17,16 @@ public:
     ~SingingView();
     MIDIview* getMidiView();
 
+    void setPlayPauseButtonText(QString text);
 private slots:
     void on_menuButton_clicked();
 
 
+    void on_playButton_clicked();
+
 signals:
     void menuButtonClicked();
+    void playButtonClicked();
 
 private:
     Ui::SingingView *ui;
