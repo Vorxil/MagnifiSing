@@ -4,8 +4,8 @@
 #include <QObject>
 #include "singingview.h"
 #include "midiview.h"
-#include "../audio_input/audioinput.h"
-#include "../audio_input/cepsdwt.h"
+#include "audio_input/audioinput.h"
+#include "audio_input/cepsdwt.h"
 
 class SingingViewController : public QObject
 {

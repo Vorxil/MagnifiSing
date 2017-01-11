@@ -4,8 +4,8 @@
 #include <QObject>
 #include <QTime>
 #include <QTimer>
-#include "../audio_input/audioinput.h"
-#include "../audio_input/cepsdwt.h"
+#include "audio_input/audioinput.h"
+#include "audio_input/cepsdwt.h"
 #include <QDebug>
 #include "midiview.h"
 #include "singingview.h"
