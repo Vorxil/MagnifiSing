@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>adduser</class>
+ <widget class="QDialog" name="adduser">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>606</width>
+    <height>352</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QGroupBox" name="groupBox">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>40</y>
+     <width>381</width>
+     <height>201</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+     <weight>50</weight>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="title">
+    <string>Create User Profile</string>
+   </property>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>40</y>
+      <width>241</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QLabel" name="label_name">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>User Name</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineEdit_name"/>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <item>
+        <widget class="QLabel" name="label_password">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Password</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineEdit_password">
+         <property name="echoMode">
+          <enum>QLineEdit::Password</enum>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="layoutWidget_2">
+    <property name="geometry">
+     <rect>
+      <x>290</x>
+      <y>40</y>
+      <width>77</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <item>
+      <widget class="QPushButton" name="pushButton_save">
+       <property name="font">
+        <font>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Save</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_delete">
+       <property name="text">
+        <string>Delete</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QTableView" name="tableView">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>50</y>
+     <width>111</width>
+     <height>221</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>MS Shell Dlg 2</family>
+     <pointsize>12</pointsize>
+     <weight>50</weight>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="lineWidth">
+    <number>1</number>
+   </property>
+   <property name="midLineWidth">
+    <number>1</number>
+   </property>
+   <property name="sizeAdjustPolicy">
+    <enum>QAbstractScrollArea::AdjustToContents</enum>
+   </property>
+   <property name="autoScrollMargin">
+    <number>0</number>
+   </property>
+   <property name="editTriggers">
+    <set>QAbstractItemView::AnyKeyPressed|QAbstractItemView::EditKeyPressed|QAbstractItemView::SelectedClicked</set>
+   </property>
+   <property name="alternatingRowColors">
+    <bool>true</bool>
+   </property>
+   <property name="selectionMode">
+    <enum>QAbstractItemView::SingleSelection</enum>
+   </property>
+   <property name="textElideMode">
+    <enum>Qt::ElideMiddle</enum>
+   </property>
+   <property name="showGrid">
+    <bool>false</bool>
+   </property>
+   <property name="gridStyle">
+    <enum>Qt::SolidLine</enum>
+   </property>
+   <property name="wordWrap">
+    <bool>true</bool>
+   </property>
+   <attribute name="horizontalHeaderVisible">
+    <bool>false</bool>
+   </attribute>
+   <attribute name="horizontalHeaderDefaultSectionSize">
+    <number>111</number>
+   </attribute>
+   <attribute name="verticalHeaderVisible">
+    <bool>false</bool>
+   </attribute>
+  </widget>
+  <widget class="QPushButton" name="pushButton_view">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>300</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Show User</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_back">
+   <property name="geometry">
+    <rect>
+     <x>490</x>
+     <y>300</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Back</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
