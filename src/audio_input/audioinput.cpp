@@ -6,9 +6,7 @@
 #include <QObject>
 #include <QAudioBuffer>
 
-#define SAMPLE_RATE 16000
-#define SAMPLE_SIZE 16
-#define RETURN_SIZE 1024        // Number of samples returned when calling readMore()
+
 
 QAudioInput* m_audioInput;
 QByteArray *m_buffer;

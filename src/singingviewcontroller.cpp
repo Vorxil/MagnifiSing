@@ -11,10 +11,7 @@
 #include "singingview.h"
 
 
-#define fs 8000
-
-
-cepsDWT cepsdwt(1024,4);
+cepsDWT cepsdwt(RETURN_SIZE,6);
 QTime m_time;
 int total_time;
 QTimer *timer;
@@ -44,7 +41,7 @@ SingingViewController::~SingingViewController(){
 
 void SingingViewController::readSamples(){
     samples = audioInput->readMore();
-    frequency = cepsdwt.detectPitchFrequency(samples,fs);
+    frequency = cepsdwt.detectPitchFrequency(samples,SAMPLE_RATE);
 
     qDebug() << "\nFrequency: " << frequency;
 

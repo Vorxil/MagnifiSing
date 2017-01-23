@@ -5,13 +5,17 @@
 #include <QAudioFormat>
 #include <QIODevice>
 
+#define SAMPLE_RATE 48000
+#define SAMPLE_SIZE 16
+#define RETURN_SIZE 2048        // Number of samples returned when calling readMore()
+
 
 class audioinput : public QObject
 {
     Q_OBJECT
 private:
     void printBufferData();
-    double samples[1024];
+    double samples[RETURN_SIZE];
 
 public:
     audioinput();
