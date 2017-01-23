@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>manageuser</class>
- <widget class="QDialog" name="manageuser">
+ <class>ManageUser</class>
+ <widget class="QDialog" name="ManageUser">
   <property name="geometry">
    <rect>
     <x>0</x>
