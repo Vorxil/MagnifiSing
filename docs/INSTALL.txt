@@ -12,7 +12,9 @@ sudo apt-get install build-essential
 Install qt5 and multimedia module:
 sudo apt-get install qtbase5-dev qt5-default qtmultimedia5-dev
 
-Install aquila to /usr or modify menu.pro:
-http://aquila-dsp.org/download/
+Create Makefile in src directory:
+qmake
 
+Compile:
+make
 
