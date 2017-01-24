@@ -89,7 +89,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Continue</string>
+        <string>Choose a song</string>
        </property>
       </widget>
      </item>
