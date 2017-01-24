@@ -1,4 +1,5 @@
 #include <QtWidgets/QFileDialog>
+#include <QtCore/QString>
 #include "startsingingview.h"
 #include "ui_startsingingview.h"
 
@@ -22,6 +23,6 @@ void StartSingingView::on_backButton_clicked()
 
 void StartSingingView::on_chooseSongButton_clicked()
 {
-    QFileDialog::getOpenFileName(this, tr("Open Midifile"), "/home/byggis", tr("Midi Files (*.mdi *.midi)"));
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open Sheet music file"), "", tr("Midi Files (*.mdi *.midi *.mid)"));
     emit chooseSongButtonClicked();
 }
