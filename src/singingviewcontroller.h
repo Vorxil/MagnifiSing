@@ -19,10 +19,13 @@ private:
 public:
     SingingViewController(SingingView*singingView);
     ~SingingViewController();
+
+    int freqToSemitone(double frequency);
 public Q_SLOTS:
     void readSamples();
     void updateMidiView();
     void play_pause();
+    void stop();
 };
 
 #endif // SINGINGVIEWCONTROLLER_H

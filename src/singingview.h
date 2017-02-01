@@ -24,9 +24,12 @@ private slots:
 
     void on_playButton_clicked();
 
+    void on_stopButton_clicked();
+
 signals:
     void menuButtonClicked();
     void playButtonClicked();
+    void stopButtonClicked();
 
 private:
     Ui::SingingView *ui;

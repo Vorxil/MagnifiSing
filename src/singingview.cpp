@@ -37,3 +37,8 @@ void SingingView::on_playButton_clicked()
 void SingingView::setPlayPauseButtonText(QString text){
     ui->playButton->setText(text);
 }
+
+void SingingView::on_stopButton_clicked()
+{
+    emit stopButtonClicked();
+}

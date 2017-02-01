@@ -19,10 +19,12 @@ public:
     ~MIDIview();
 
     void setToneInterval(int lowTone, int highTone);
-    int freqToSemitone(double frequency);
     void setLyrics(QString lyrics);
-    void addCorrectFrequency(double frequency, int time);
 
+    void addMidiTone(int tone);
+    void addCorrectTone(int tone);
+    void addWrongTone(int tone);
+    void setCurrentTime(int time);
 private:
     Ui::MIDIview *ui;
     void paintEvent(QPaintEvent *event);
