@@ -16,6 +16,10 @@ int correctIdx;
 int wrongIdx;
 int midiIdx;
 
+QString lyrics[windowWidth/updateInterval];
+int lyricsIdx;
+int lastTextXCoord;
+
 int i;
 int highestTone;
 int lowestTone;
@@ -45,6 +49,7 @@ MIDIview::MIDIview(QWidget *parent) :
     }
     for(int i=0;i<windowWidth/(updateInterval);i++){
         midiTones[i] = -500;
+        lyrics[i] = "";
     }
 
 }
@@ -76,7 +81,7 @@ void MIDIview::paintEvent(QPaintEvent *event){
     QPen pen(QBrush(QColor("darkGrey")),18,Qt::SolidLine,Qt::FlatCap, Qt::BevelJoin);
     p.setPen(pen);
     for(i=0; i<windowWidth/updateInterval; i++){
-        int tone = midiTones[(midiIdx+i)%(windowWidth/updateInterval)];
+        int tone = midiTones[(midiIdx+i+1)%(windowWidth/updateInterval)];
         int start = i*updateInterval;
         int duration = updateInterval;
 
@@ -87,18 +92,16 @@ void MIDIview::paintEvent(QPaintEvent *event){
 
 
         /* Scale the x axis so that the length of the axis = 10 seconds */
-        int x1 = px->width()*(start % windowWidth)/(double)windowWidth;
-        int x2 = px->width()*((start+duration) % windowWidth)/(double)windowWidth;
-        if(x1 < x2){
-            p.drawLine(x1,y,x2,y);
-        }
+        int x1 = px->width()*start/(double)windowWidth;
+        int x2 = px->width()*(start+duration)/(double)windowWidth;
+        p.drawLine(x1,y,x2,y);
     }
 
     /* Draw correct sung tones */
     QPen pen1(QBrush(QColor(0,150,0,120)),18,Qt::SolidLine,Qt::FlatCap, Qt::BevelJoin);
     p.setPen(pen1);
     for(i=0; i<windowWidth/(2*updateInterval); i++){
-        int tone = correctTones[(correctIdx+i)%(windowWidth/(2*updateInterval))];
+        int tone = correctTones[(correctIdx+i+1)%(windowWidth/(2*updateInterval))];
         int start = i*updateInterval;
         int duration = updateInterval;
 
@@ -109,19 +112,16 @@ void MIDIview::paintEvent(QPaintEvent *event){
 
 
         /* Scale the x axis so that the length of the axis = 10 seconds */
-        int x1 = px->width()*(start % windowWidth)/(double)windowWidth;
-        int x2 = px->width()*((start+duration) % windowWidth)/(double)windowWidth;
-
-        if(x1 < x2){
-            p.drawLine(x1,y,x2,y);
-        }
+        int x1 = px->width()*start/(double)windowWidth;
+        int x2 = px->width()*(start+duration)/(double)windowWidth;
+        p.drawLine(x1,y,x2,y);
     }
 
     /* Draw wrong sung tones */
     QPen pen2(QBrush(QColor("red")),18,Qt::SolidLine,Qt::FlatCap, Qt::BevelJoin);
     p.setPen(pen2);
     for(i=0; i<windowWidth/(2*updateInterval); i++){
-        int tone = wrongTones[(wrongIdx+i)%(windowWidth/(2*updateInterval))];
+        int tone = wrongTones[(wrongIdx+i+1)%(windowWidth/(2*updateInterval))];
         int start = i*updateInterval;
         int duration = updateInterval;
 
@@ -132,12 +132,41 @@ void MIDIview::paintEvent(QPaintEvent *event){
 
 
         /* Scale the x axis so that the length of the axis = 10 seconds */
-        int x1 = px->width()*(start % windowWidth)/(double)windowWidth;
-        int x2 = px->width()*((start+duration) % windowWidth)/(double)windowWidth;
+        int x1 = px->width()*start/(double)windowWidth;
+        int x2 = px->width()*(start+duration)/(double)windowWidth;
+        p.drawLine(x1,y,x2,y);
+    }
 
-        if(x1 < x2){
-            p.drawLine(x1,y,x2,y);
+    /* Draw lyrics */
+    f.setFamily("Arial");
+    f.setPixelSize(22);
+    p.setFont(f);
+    pen2.setColor("black");
+    p.setPen(pen2);
+    QFontMetrics fm(f);
+    lastTextXCoord = 0;
+    for(i=0; i<windowWidth/updateInterval; i++){
+        if(i == windowWidth/(2*updateInterval)){
+            pen2.setColor("grey");
+            p.setPen(pen2);
         }
+
+        QString text = lyrics[(lyricsIdx+i+1)%(windowWidth/updateInterval)];
+        int start = i*updateInterval;
+        int pixelsWide = fm.width(text);
+
+        /* draw text at lowest 20% of widget */
+        int y = 0.8*px->height();
+
+        /* Scale the x axis so that the length of the axis = 10 seconds */
+        int x1 = px->width()*(start % windowWidth)/(double)windowWidth;
+
+        /* Move the text to the right if they overlap */
+        if(x1 < lastTextXCoord){
+            x1 = lastTextXCoord;
+        }
+        lastTextXCoord = x1+pixelsWide;
+        p.drawText(x1,y,text);
     }
 
     ui->imageLabel->setPixmap(*px);
@@ -165,18 +194,9 @@ void MIDIview::setCurrentTime(int time){
 }
 
 
-void MIDIview::setLyrics(QString lyrics){
-
-    QPainter p(px);
-    QFont f;
-    f.setFamily("Arial");
-    f.setPixelSize(30);
-    p.setFont(f);
-
-    // draw text at the lowest 15% of widget
-    p.drawText(QRect(0,0.75*px->height(),px->width(),0.25*px->height()),Qt::AlignCenter,lyrics);
-    ui->imageLabel->setPixmap(*px);
-
+void MIDIview::addLyrics(QString text){
+    lyricsIdx = (lyricsIdx+1)%(windowWidth/updateInterval);
+    lyrics[lyricsIdx] = text;
 }
 
 
