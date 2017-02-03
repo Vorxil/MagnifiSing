@@ -16,7 +16,7 @@ int correctIdx;
 int wrongIdx;
 int midiIdx;
 
-QString lyrics[windowWidth/updateInterval];
+QString lyrics[2*windowWidth/updateInterval];
 int lyricsIdx;
 int lastTextXCoord;
 
@@ -144,14 +144,14 @@ void MIDIview::paintEvent(QPaintEvent *event){
     pen2.setColor("black");
     p.setPen(pen2);
     QFontMetrics fm(f);
-    lastTextXCoord = 0;
-    for(i=0; i<windowWidth/updateInterval; i++){
-        if(i == windowWidth/(2*updateInterval)){
+    lastTextXCoord = - px->width();
+    for(i=0; i<(2*windowWidth/updateInterval); i++){
+        if(i == (6*windowWidth/updateInterval/4)){
             pen2.setColor("grey");
             p.setPen(pen2);
         }
 
-        QString text = lyrics[(lyricsIdx+i+1)%(windowWidth/updateInterval)];
+        QString text = lyrics[(lyricsIdx+i+1)%(2*windowWidth/updateInterval)];
         int start = i*updateInterval;
         int pixelsWide = fm.width(text);
 
@@ -159,7 +159,7 @@ void MIDIview::paintEvent(QPaintEvent *event){
         int y = 0.8*px->height();
 
         /* Scale the x axis so that the length of the axis = 10 seconds */
-        int x1 = px->width()*(start % windowWidth)/(double)windowWidth;
+        int x1 = px->width()*start/(double)windowWidth - px->width();
 
         /* Move the text to the right if they overlap */
         if(x1 < lastTextXCoord){
@@ -195,7 +195,7 @@ void MIDIview::setCurrentTime(int time){
 
 
 void MIDIview::addLyrics(QString text){
-    lyricsIdx = (lyricsIdx+1)%(windowWidth/updateInterval);
+    lyricsIdx = (lyricsIdx+1)%(2*windowWidth/updateInterval);
     lyrics[lyricsIdx] = text;
 }
 
