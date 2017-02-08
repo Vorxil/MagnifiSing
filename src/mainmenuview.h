@@ -22,6 +22,8 @@ private slots:
 
     void on_buttonHelp_clicked();
 
+    void on_buttonLogIn_clicked();
+
 private:
     Ui::MainMenuView *ui;
 
