@@ -32,6 +32,7 @@ HEADERS += helpview.h \
            audio_input/audioinput.h \
            audio_input/cepsdwt.h \
            audio_input/pitchfreqdetector.h \
+           audio_input/lowpassfilter.h \
            midifile/Binasc.h \
            midifile/MidiEvent.h \
            midifile/MidiEventList.h \
@@ -72,7 +73,9 @@ HEADERS += helpview.h \
            aquila/source/window/HannWindow.h \
            aquila/source/window/RectangularWindow.h \
     manageuser.h \
-    adduser.h
+    adduser.h \
+    audio_input/hamminglpfilter.h
+
 FORMS += helpview.ui \
          mainmenuview.ui \
          mainwindow.ui \
@@ -91,6 +94,7 @@ SOURCES += helpview.cpp \
            startsingingview.cpp \
            audio_input/audioinput.cpp \
            audio_input/cepsdwt.cpp \
+           audio_input/lowpassfilter.cpp \
            midifile/Binasc.cpp \
            midifile/MidiEvent.cpp \
            midifile/MidiEventList.cpp \
@@ -128,4 +132,5 @@ SOURCES += helpview.cpp \
            aquila/source/window/HammingWindow.cpp \
            aquila/source/window/HannWindow.cpp \
     manageuser.cpp \
-    adduser.cpp
+    adduser.cpp \
+    audio_input/hamminglpfilter.cpp
