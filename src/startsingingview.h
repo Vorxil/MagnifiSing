@@ -15,16 +15,31 @@ public:
     explicit StartSingingView(QWidget *parent = 0);
     ~StartSingingView();
 
+    void setTextTrackComboBox(int n);
+    void setToneTrackComboBox(int n);
+    void setContinueButtonEnabled(int e);
+    void setMidiTextAreaText(QString text);
 private slots:
     void on_backButton_clicked();
 
-    void on_chooseSongButton_clicked();
+    void on_loadFileButton_clicked();
+
+    void on_browseButton_clicked();
+
+    void on_continueButton_clicked();
+
+    void on_textTrackComboBox_currentIndexChanged(int index);
+
+    void on_toneTrackComboBox_currentIndexChanged(int index);
 
 private:
     Ui::StartSingingView *ui;
 signals:
     void backButtonClicked();
-    void chooseSongButtonClicked();
+    void loadFileButtonClicked(QString filepath);
+    void continueButtonClicked();
+    void textTrackComboBoxIndexChanged(int index);
+    void toneTrackComboBoxIndexChanged(int index);
 };
 
 #endif // STARTSINGINGVIEW_H

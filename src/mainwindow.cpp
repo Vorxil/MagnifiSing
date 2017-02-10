@@ -46,11 +46,12 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(mainMenuView,SIGNAL(helpButtonClicked()),this,SLOT(enterHelpMenu()));
 
     connect(startSingingView,SIGNAL(backButtonClicked()),this,SLOT(enterMainMenu()));
-    connect(startSingingView,SIGNAL(chooseSongButtonClicked()),this,SLOT(enterSingingView()));
+    connect(startSingingView,SIGNAL(continueButtonClicked()),this,SLOT(enterSingingView()));
 
     connect(helpView,SIGNAL(backButtonClicked()),this,SLOT(enterMainMenu()));
 
     connect(singingView,SIGNAL(menuButtonClicked()),this,SLOT(enterMainMenu()));
+    connect(singingView,SIGNAL(backButtonClicked()),this,SLOT(enterSingingMenu()));
 
 
 }
@@ -96,4 +97,8 @@ void MainWindow::enterSingingView(){
 
 SingingView* MainWindow::getSingingView(){
     return singingView;
+}
+
+StartSingingView* MainWindow::getStartSingingView(){
+    return startSingingView;
 }

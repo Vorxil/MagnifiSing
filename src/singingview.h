@@ -26,10 +26,13 @@ private slots:
 
     void on_stopButton_clicked();
 
+    void on_backButton_clicked();
+
 signals:
     void menuButtonClicked();
     void playButtonClicked();
     void stopButtonClicked();
+    void backButtonClicked();
 
 private:
     Ui::SingingView *ui;

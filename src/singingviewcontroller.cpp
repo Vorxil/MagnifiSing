@@ -12,6 +12,7 @@
 #include <QDebug>
 #include "midiview.h"
 #include "singingview.h"
+#include "startsingingview.h"
 #include "midifile/MidiFile.h"
 
 /* Constants used in conversion from frequency to semitones */
@@ -24,6 +25,7 @@ QTime m_time;
 int total_time;
 QTimer *timer;
 SingingView *singView;
+StartSingingView *startsingingView;
 
 MidiFile midiFile;
 int currentMidiToneEvent;
@@ -39,55 +41,25 @@ int sungTone;
 int oldMidiTones[windowWidth/(2*updateInterval)];
 int midiIndex;
 
-int SingingViewController::freqToSemitone(double frequency){
-    return (int)round(const1*(4*log(frequency)-const2));
-}
 
-SingingViewController::SingingViewController(SingingView* singingView)
+
+SingingViewController::SingingViewController(SingingView* singingView, StartSingingView* ssView)
 {
-    /* Import midi file */
-    currentMidiToneEvent = 0;
-    currentMidiTextEvent = 0;
-    toneTrack = 6;
-    textTrack = 2;
-    midiFile.read("Strangers_In_The_Night_Lyrics.mid");
-    midiFile.linkNotePairs();
-    midiFile.sortTracks();
-    midiFile.doTimeAnalysis();
-    toneEventsNumber = midiFile.getEventCount(toneTrack);
-    textEventsNumber = midiFile.getEventCount(textTrack);
-
-    /* Print some info about the midi file */
-    cout << "\n" << midiFile.getFilename();
-    cout << "\nDuration: " << midiFile.getTotalTimeInSeconds() << " sec";
-    cout << "\nTracks: " << midiFile.getTrackCount();
-    cout << "\nNote events: " << toneEventsNumber;
-    cout << "\nText events: " << textEventsNumber;
-    cout << "\n\nText events";
-    for(int t=0;t<midiFile.getTrackCount();t++){
-        for(int e=0; e<midiFile.getEventCount(t);e++){
-            if(midiFile.getEvent(t,e).isMeta() && midiFile.getEvent(t,e)[1] <= 7){
-                cout << "\nTrack " << t << ", Time: " << midiFile.getTimeInSeconds(t,e) << " ";
-                for(int i = 0;i<midiFile.getEvent(t,e).getP2();i++){
-                    char ascii = midiFile.getEvent(t,e)[i+3];
-                    cout << ascii;
-                }
-            }
-            cout <<  std::flush;
-        }
-    }
-
-
-
     singView = singingView;
+    startsingingView = ssView;
     midiView = singingView->getMidiView();
     midiView->setToneInterval(-24,24);
 
     audioInput = new audioinput();
     connect(audioInput,SIGNAL(readyRead()),this,SLOT(readSamples()));
     connect(singingView,SIGNAL(playButtonClicked()),this,SLOT(play_pause()));
-    connect(singingView,SIGNAL(menuButtonClicked()),this,SLOT(play_pause()));
+    connect(singingView,SIGNAL(menuButtonClicked()),this,SLOT(stop()));
     connect(singingView,SIGNAL(stopButtonClicked()),this,SLOT(stop()));
+    connect(singingView,SIGNAL(backButtonClicked()),this,SLOT(stop()));
+    connect(startsingingView,SIGNAL(loadFileButtonClicked(QString)),this,SLOT(updateMidiFile(QString)));
+    connect(startsingingView,SIGNAL(textTrackComboBoxIndexChanged(int)),this,SLOT(setTextTrack(int)));
+    connect(startsingingView,SIGNAL(toneTrackComboBoxIndexChanged(int)),this,SLOT(setToneTrack(int)));
+
 
     /* Update MIDI view every updateInterval milliseconds */
     timer = new QTimer(this);
@@ -173,6 +145,10 @@ void SingingViewController::updateMidiView(){
     }
 }
 
+int SingingViewController::freqToSemitone(double frequency){
+    return (int)round(const1*(4*log(frequency)-const2));
+}
+
 void SingingViewController::play_pause(){
     if(timer->isActive()){
         timer->stop();
@@ -192,7 +168,7 @@ void SingingViewController::stop(){
     currentMidiTextEvent = 0;
     midiView->setCurrentTime(0);
     singView->setPlayPauseButtonText("Play");
-    for(int i=0;i<windowWidth/(updateInterval);i++){
+    for(int i=0;i<2*windowWidth/(updateInterval);i++){
         midiView->addMidiTone(-500);
         midiView->addLyrics("");
     }
@@ -200,4 +176,69 @@ void SingingViewController::stop(){
         midiView->addCorrectTone(-500);
         midiView->addWrongTone(-500);
     }
+}
+
+void SingingViewController::updateMidiFile(QString filepath){
+    int midiRead = setMidiFile(filepath);
+    setTextTrack(0);
+    setToneTrack(0);
+    if(midiRead){
+        midiFile.linkNotePairs();
+        midiFile.sortTracks();
+        midiFile.doTimeAnalysis();
+        qDebug() << "Midi imported successfully";
+        startsingingView->setTextTrackComboBox(midiFile.getTrackCount());
+        startsingingView->setToneTrackComboBox(midiFile.getTrackCount());
+        startsingingView->setContinueButtonEnabled(1);
+        startsingingView->setMidiTextAreaText(getMidiTextAsString(midiFile));
+    }else{
+        qDebug() << "Error in midi import";
+        startsingingView->setContinueButtonEnabled(0);
+    }
+}
+int SingingViewController::setMidiFile(QString filepath){
+    return midiFile.read(filepath.toStdString());
+}
+
+void SingingViewController::setToneTrack(int track){
+    toneTrack = track;
+    currentMidiToneEvent = 0;
+    if(toneTrack < midiFile.getTrackCount()){
+        toneEventsNumber = midiFile.getEventCount(toneTrack);
+    }
+}
+
+void SingingViewController::setTextTrack(int track){
+    textTrack = track;
+    currentMidiTextEvent = 0;
+    if(textTrack < midiFile.getTrackCount()){
+        textEventsNumber = midiFile.getEventCount(textTrack);
+    }
+}
+
+QString SingingViewController::getMidiTextAsString(MidiFile midifile){
+    QString s;
+    s += midiFile.getFilename();
+    s += "\nDuration: ";
+    s += QString::number(midiFile.getTotalTimeInSeconds());
+    s += " sec";
+    s += "\nTracks: ";
+    s += QString::number(midiFile.getTrackCount());
+    s += "\n\nText events:";
+    for(int t=0;t<midiFile.getTrackCount();t++){
+        for(int e=0; e<midiFile.getEventCount(t);e++){
+            if(midiFile.getEvent(t,e).isMeta() && midiFile.getEvent(t,e)[1] <= 7){
+                s += "\nTrack ";
+                s += QString::number(t);
+                s += ", Time: ";
+                s += QString::number(midiFile.getTimeInSeconds(t,e));
+                s += " ";
+                for(int i = 0;i<midiFile.getEvent(t,e).getP2();i++){
+                    char ascii = midiFile.getEvent(t,e)[i+3];
+                    s += ascii;
+                }
+            }
+        }
+    }
+    return s;
 }

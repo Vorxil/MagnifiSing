@@ -46,7 +46,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="toggleViewButton">
+        <widget class="QPushButton" name="backButton">
          <property name="sizePolicy">
           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -65,7 +65,7 @@
           </font>
          </property>
          <property name="text">
-          <string>View sheet music</string>
+          <string>Back</string>
          </property>
         </widget>
        </item>
@@ -121,25 +121,6 @@
          </property>
          <property name="text">
           <string>Play</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QSlider" name="volumeSlider">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>200</width>
-           <height>16777215</height>
-          </size>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>

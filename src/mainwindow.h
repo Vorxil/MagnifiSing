@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "singingview.h"
+#include "startsingingview.h"
 
 namespace Ui {
 class MainWindow;
@@ -17,6 +18,7 @@ public:
     ~MainWindow();
     SingingView* getSingingView();
 
+    StartSingingView* getStartSingingView();
 public slots:
     void enterMainMenu();
     void enterSingingMenu();

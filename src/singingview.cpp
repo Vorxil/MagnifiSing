@@ -42,3 +42,8 @@ void SingingView::on_stopButton_clicked()
 {
     emit stopButtonClicked();
 }
+
+void SingingView::on_backButton_clicked()
+{
+    emit backButtonClicked();
+}

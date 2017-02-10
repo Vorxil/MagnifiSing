@@ -10,8 +10,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     MainWindow w;
-    w.getSingingView();
-    SingingViewController* singingViewController = new SingingViewController(w.getSingingView());
+    SingingViewController* singingViewController = new SingingViewController(w.getSingingView(), w.getStartSingingView());
 
     w.setWindowTitle("MagnifiSing");
 
