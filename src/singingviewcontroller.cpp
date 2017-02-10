@@ -17,7 +17,7 @@
 
 /* Constants used in conversion from frequency to semitones */
 const double const1 = 3/log(2);
-const double const2 = log(4685120000);
+const double const2 = log(4685120000L);
 
 
 cepsDWT cepsdwt(RETURN_SIZE,6);
