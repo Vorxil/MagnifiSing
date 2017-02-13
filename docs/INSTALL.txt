@@ -10,7 +10,7 @@ Install compilers etc:
 sudo apt-get install build-essential
 
 Install qt5 and multimedia module:
-sudo apt-get install qtbase5-dev qt5-default qtmultimedia5-dev
+sudo apt-get install qtbase5-dev qt5-default qtmultimedia5-dev libqt5multimedia5-plugins
 
 Create Makefile in src directory:
 qmake
