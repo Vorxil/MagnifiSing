@@ -73,10 +73,10 @@ SingingViewController::~SingingViewController(){
 
 void SingingViewController::readSamples(){
     samples = audioInput->readMore();
-    frequency = cepsdwt.detectPitchFrequency(samples,SAMPLE_RATE);
-
-    //qDebug() << "\nFrequency: " << frequency;
-
+    if ( samples != 0 ) {
+    	frequency = cepsdwt.detectPitchFrequency(samples,SAMPLE_RATE);
+//        qDebug() << "\nFrequency: " << frequency;
+    }
 }
 
 
