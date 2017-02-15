@@ -15,7 +15,7 @@ public:
      * @param transBand - The length of transitional band in Hz i.e. the transition from passband to stopband
      * @return the filter constants
      */
-    static float * generateFilter(const float samplingFreq, const float passband, const float transBand);
+    static double * generateFilter(const double samplingFreq, const double passband, const double transBand);
 
     /**
      * @brief filterLen - Calculates the optimal filter length for the filter
@@ -23,7 +23,7 @@ public:
      * @param transBand - Length of the transitional band i.e. the transition from passband to stopband
      * @return - the optimal filter length
      */
-    inline static int filterLen(const float samplingFreq, const float transBand);
+    inline static int filterLen(const double samplingFreq, const double transBand);
 
     /**
      * @brief HammingLPFilter - constructor of the filter
@@ -32,7 +32,7 @@ public:
      * @param transBand - The length of transitional band in Hz i.e. the transition from passband to stopband
      * @param _dataLength - The length of the data window
      */
-    HammingLPFilter(const float samplingFreq, const float passband, const float transBand, const int _dataLength);
+    HammingLPFilter(const double samplingFreq, const double passband, const double transBand, const int _dataLength);
     ~HammingLPFilter();
 };
 
