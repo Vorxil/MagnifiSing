@@ -20,6 +20,7 @@ HEADERS += helpview.h \
            singingview.h \
            singingviewcontroller.h \
            startsingingview.h \
+           database.h \
            aquila/aquila.h \
            aquila/Exceptions.h \
            aquila/filter.h \
@@ -92,6 +93,7 @@ SOURCES += helpview.cpp \
            singingview.cpp \
            singingviewcontroller.cpp \
            startsingingview.cpp \
+           database.cpp \
            audio_input/audioinput.cpp \
            audio_input/cepsdwt.cpp \
            audio_input/lowpassfilter.cpp \
