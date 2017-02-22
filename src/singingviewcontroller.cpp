@@ -187,7 +187,9 @@ void SingingViewController::updateMidiFile(QString filepath){
         midiFile.sortTracks();
         midiFile.doTimeAnalysis();
         qDebug() << "Midi imported successfully";
-        startsingingView->setTextTrackComboBox(midiFile.getTrackCount());
+
+        int t = getTrack_MaxTextEvents();
+        startsingingView->setTextTrackComboBox(midiFile.getTrackCount(),t);
         startsingingView->setToneTrackComboBox(midiFile.getTrackCount());
         startsingingView->setContinueButtonEnabled(1);
         startsingingView->setMidiTextAreaText(getMidiTextAsString(midiFile));
@@ -241,4 +243,28 @@ QString SingingViewController::getMidiTextAsString(MidiFile midifile){
         }
     }
     return s;
+}
+
+int SingingViewController::getTrack_MaxTextEvents(){
+
+    int track = 0;
+    int currentTextEventCount = 0;
+    int prevTextEventCount = 0;
+
+    for(int t=0;t<midiFile.getTrackCount();t++){
+
+        /* Calculate number of text events */
+        currentTextEventCount = 0;
+        for(int e=0; e<midiFile.getEventCount(t); e++){
+            if(midiFile.getEvent(t,e).isMeta() && midiFile.getEvent(t,e)[1] <= 7){
+                currentTextEventCount++;
+            }
+        }
+        /* Compare to previous tracks */
+        if(prevTextEventCount < currentTextEventCount){
+            track = t;
+            prevTextEventCount = currentTextEventCount;
+        }
+    }
+    return track;
 }

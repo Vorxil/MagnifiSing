@@ -25,6 +25,7 @@ public:
     int freqToSemitone(double frequency);
     int setMidiFile(QString filepath);
     QString getMidiTextAsString(MidiFile midifile);
+    int getTrack_MaxTextEvents();
 public Q_SLOTS:
     void readSamples();
     void updateMidiView();

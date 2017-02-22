@@ -15,7 +15,7 @@ public:
     explicit StartSingingView(QWidget *parent = 0);
     ~StartSingingView();
 
-    void setTextTrackComboBox(int n);
+    void setTextTrackComboBox(int n, int selectTrack);
     void setToneTrackComboBox(int n);
     void setContinueButtonEnabled(int e);
     void setMidiTextAreaText(QString text);

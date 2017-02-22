@@ -49,7 +49,7 @@ void StartSingingView::on_toneTrackComboBox_currentIndexChanged(int index)
     emit toneTrackComboBoxIndexChanged(index);
 }
 
-void StartSingingView::setTextTrackComboBox(int n){
+void StartSingingView::setTextTrackComboBox(int n, int selectTrack){
 
     /* Add new items */
     for(int i=0; i<n; i++){
@@ -59,6 +59,8 @@ void StartSingingView::setTextTrackComboBox(int n){
     while(ui->textTrackComboBox->count()>n){
         ui->textTrackComboBox->removeItem(0);
     }
+    /* Select the specified track */
+    ui->textTrackComboBox->setCurrentIndex(selectTrack);
 
 }
 
