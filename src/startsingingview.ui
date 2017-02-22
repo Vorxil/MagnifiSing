@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>628</width>
-    <height>333</height>
+    <height>357</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -230,13 +230,20 @@
           <layout class="QHBoxLayout" name="horizontalLayout_4">
            <item>
             <widget class="QComboBox" name="textTrackComboBox">
+             <property name="sizeAdjustPolicy">
+              <enum>QComboBox::AdjustToContents</enum>
+             </property>
              <property name="duplicatesEnabled">
               <bool>false</bool>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QComboBox" name="toneTrackComboBox"/>
+            <widget class="QComboBox" name="toneTrackComboBox">
+             <property name="sizeAdjustPolicy">
+              <enum>QComboBox::AdjustToContents</enum>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>

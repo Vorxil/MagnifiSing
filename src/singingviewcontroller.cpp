@@ -7,6 +7,7 @@
 #include <QObject>
 #include <QTime>
 #include <QTimer>
+#include <QStringList>
 #include "audio_input/audioinput.h"
 #include "audio_input/cepsdwt.h"
 #include <QDebug>
@@ -188,9 +189,8 @@ void SingingViewController::updateMidiFile(QString filepath){
         midiFile.doTimeAnalysis();
         qDebug() << "Midi imported successfully";
 
-        int t = getTrack_MaxTextEvents();
-        startsingingView->setTextTrackComboBox(midiFile.getTrackCount(),t);
-        startsingingView->setToneTrackComboBox(midiFile.getTrackCount());
+        startsingingView->setTextTrackComboBox(midiFile.getTrackCount(), getTrackNames(), getTrack_MaxTextEvents());
+        startsingingView->setToneTrackComboBox(midiFile.getTrackCount(), getTrackNames());
         startsingingView->setContinueButtonEnabled(1);
         startsingingView->setMidiTextAreaText(getMidiTextAsString(midiFile));
     }else{
@@ -267,4 +267,23 @@ int SingingViewController::getTrack_MaxTextEvents(){
         }
     }
     return track;
+}
+
+QStringList SingingViewController::getTrackNames(){
+    QStringList trackList;
+    for(int t=0;t<midiFile.getTrackCount(); t++){
+        QString track = QString::number(t);
+        for(int e=0; e<midiFile.getEventCount(t); e++){
+            if(midiFile.getEvent(t,e).isMeta() && midiFile.getEvent(t,e)[1] == 3){
+                track += " ";
+                for(int i = 0;i<midiFile.getEvent(t,e).getP2();i++){
+                    char ascii = midiFile.getEvent(t,e)[i+3];
+                    track += ascii;
+                }
+                break;
+            }
+        }
+        trackList << track;
+    }
+    return trackList;
 }

@@ -26,6 +26,7 @@ public:
     int setMidiFile(QString filepath);
     QString getMidiTextAsString(MidiFile midifile);
     int getTrack_MaxTextEvents();
+    QStringList getTrackNames();
 public Q_SLOTS:
     void readSamples();
     void updateMidiView();

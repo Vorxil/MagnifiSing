@@ -49,11 +49,11 @@ void StartSingingView::on_toneTrackComboBox_currentIndexChanged(int index)
     emit toneTrackComboBoxIndexChanged(index);
 }
 
-void StartSingingView::setTextTrackComboBox(int n, int selectTrack){
+void StartSingingView::setTextTrackComboBox(int n, QStringList trackList, int selectTrack){
 
     /* Add new items */
     for(int i=0; i<n; i++){
-        ui->textTrackComboBox->addItem(QString::number(i),Qt::DisplayRole);
+        ui->textTrackComboBox->addItem(trackList[i],Qt::DisplayRole);
     }
     /* Remove all old items */
     while(ui->textTrackComboBox->count()>n){
@@ -64,16 +64,17 @@ void StartSingingView::setTextTrackComboBox(int n, int selectTrack){
 
 }
 
-void StartSingingView::setToneTrackComboBox(int n){
+void StartSingingView::setToneTrackComboBox(int n, QStringList trackList){
 
     /* Add new items */
     for(int i=0; i<n; i++){
-        ui->toneTrackComboBox->addItem(QString::number(i),Qt::DisplayRole);
+        ui->toneTrackComboBox->addItem(trackList[i],Qt::DisplayRole);
     }
     /* Remove all old items */
     while(ui->toneTrackComboBox->count()>n){
         ui->toneTrackComboBox->removeItem(0);
     }
+
 }
 void StartSingingView::setContinueButtonEnabled(int e){
     ui->continueButton->setEnabled(e);
