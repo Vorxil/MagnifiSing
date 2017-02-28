@@ -1,19 +1,22 @@
 #ifndef DATABASE_H
 #define DATABASE_H
 
-#include <QtSql>
+#include <QSqlDatabase>
+
+#define DB_FILENAME "magnifising.db" // FIXME: later
 
 class Database {
 
 	private :
 		QSqlDatabase db; // actual database
-
-	public :
 		void close(); // close connection to database
                 bool open(); // open connection to database
                              // returns true on success and false on error
+	public :
+		bool addUser( const QString &name, const QString &realname );
 		~Database(); // destructor
-		Database(); // constructor
+		Database( const QString &filename ); // constructor
 };
 
 #endif // DATABASE_H
+

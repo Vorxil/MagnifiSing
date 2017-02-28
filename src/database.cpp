@@ -1,4 +1,7 @@
 #include <QtSql>
+#include <QSqlQuery>
+#include <QSqlRecord>
+#include <QDebug>
 #include "database.h"
 
 /**
@@ -20,12 +23,34 @@ bool Database::open() {
 	return true;
 }
 
+bool Database::addUser( const QString &name, const QString &realname ) {
+
+	if ( name.isEmpty() || realname.isEmpty() ) {
+		qDebug() << "name or realname can not be empty";
+		return false;
+	}
+	if ( !open() ) {
+		return false;
+	}
+
+	QSqlQuery q;
+	q.prepare( "INSERT INTO users ( name, realname ) VALUES (:name,:realname)");
+	q.bindValue( ":name", name );
+	q.bindValue( ":realname", realname );
+	if ( !q.exec() ) {
+		qDebug() << "Problem adding user: " << name << " " << realname;
+		return false;
+	}
+	return true;
+}
+
+
 Database::~Database() {
 	close();
 }
 
-Database::Database() {
+Database::Database( const QString &filename ) {
 	db = QSqlDatabase::addDatabase( "QSQLITE" );
-	db.setDatabaseName( "magnifising.sqlite" );
+	db.setDatabaseName( filename );
 }
 
