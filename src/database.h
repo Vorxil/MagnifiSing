@@ -15,6 +15,7 @@ class Database {
 	public :
 		bool addUser( const QString &name, const QString &realname );
 		bool removeUser( const QString &name );
+		QList<QString> *getUsers();
 		~Database(); // destructor
 		Database( const QString &filename ); // constructor
 };

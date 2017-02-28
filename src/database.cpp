@@ -1,6 +1,5 @@
 #include <QtSql>
-#include <QSqlQuery>
-#include <QSqlRecord>
+#include <QSqlQuery> #include <QSqlRecord>
 #include <QDebug>
 #include "database.h"
 
@@ -62,6 +61,20 @@ bool Database::removeUser( const QString &name ) {
 	return true;
 }
 
+
+QList<QString> *Database::getUsers() {
+	QList<QString> *users = new QList<QString>();
+	if ( !open() ) {
+		return users;
+	}
+	QSqlQuery q( "SELECT name FROM users" );
+	int i = q.record().indexOf( "name" );
+	while ( q.next() ) {
+		QString name = q.value( i ).toString();
+		users->append( name );
+	}
+	return users;
+}
 
 Database::~Database() {
 	close();
