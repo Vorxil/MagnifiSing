@@ -14,6 +14,7 @@ class Database {
                              // returns true on success and false on error
 	public :
 		bool addUser( const QString &name, const QString &realname );
+		bool removeUser( const QString &name );
 		~Database(); // destructor
 		Database( const QString &filename ); // constructor
 };
