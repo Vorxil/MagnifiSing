@@ -14,6 +14,7 @@ class Database {
                              // returns true on success and false on error
 	public :
 		bool addUser( const QString &name, const QString &realname );
+                bool addModifyFile( const QString &filename, int lyrics, int melody );
 		bool removeUser( const QString &name );
 		QList<QString> *getUsers();
 		~Database(); // destructor

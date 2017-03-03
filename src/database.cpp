@@ -1,6 +1,8 @@
 #include <QtSql>
-#include <QSqlQuery> #include <QSqlRecord>
+#include <QSqlQuery>
+#include <QSqlRecord>
 #include <QDebug>
+#include <QFileInfo>
 #include "database.h"
 
 /**
@@ -74,6 +76,32 @@ QList<QString> *Database::getUsers() {
 		users->append( name );
 	}
 	return users;
+}
+
+bool Database::addModifyFile( const QString &filename, int lyrics, int melody ) {
+	if ( !open() ) {
+		return false;
+	}
+	QFileInfo file( filename );
+	QSqlQuery q;
+	q.prepare( "SELECT id FROM files where filename=:filename" );
+	q.bindValue( ":filename", file.absoluteFilePath() );
+	if ( !q.exec() ) {
+		qDebug() << "Problem getting id from files table based on filename: " << filename;
+		return false;
+	}
+	if ( q.size() == 0 ) {
+		q.prepare( "INSERT INTO files ( filename, lyrics, melody ) values ( :filename, :lyrics, :melody )" );
+	} else {
+		q.prepare( "UPDATE files SET lyrics=:lyrics, melody=:melody" );
+	}
+	q.bindValue( ":lyrics", lyrics );
+	q.bindValue( ":melody", melody );
+	if ( !q.exec() ) {
+		qDebug() << "Problem addmodifying files table";
+		return false;
+	}
+	return true;
 }
 
 Database::~Database() {

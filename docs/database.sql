@@ -9,7 +9,9 @@ INSERT INTO users ( name, realname ) values ( 'klaus', 'Klaus Lapela' );
 
 CREATE TABLE files (
   id integer primary key,
-  filename text unique
+  filename text unique,
+  lyrics integer,
+  melody integer
 );
 
 CREATE TABLE performances (
