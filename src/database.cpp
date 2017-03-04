@@ -78,6 +78,30 @@ QList<QString> *Database::getUsers() {
 	return users;
 }
 
+UserData *Database::getUserData( const QString &name ) {
+	UserData *userData= new UserData;
+	userData->name = name;
+	if ( !open() ) {
+		return userData;
+	}
+	QSqlQuery q;
+	q.prepare( "SELECT * FROM users WHERE name=:name" );
+	q.bindValue( ":name", name);
+	if ( !q.exec() ) {
+		qDebug() << "Problem getting user data for name " << name;
+	}
+	int nameIndex = q.record().indexOf( "name" );
+	int realNameIndex = q.record().indexOf( "realname" );
+	if ( !q.next() ) {
+		qDebug() << "No rows found in database contining name " << name;
+	} else {
+		userData->name = q.value( nameIndex ).toInt();
+		userData->realname = q.value( realNameIndex ).toInt();
+	}
+	return userData;
+}
+
+
 bool Database::addModifyFile( const QString &filename, int lyrics, int melody ) {
 	if ( !open() ) {
 		return false;

@@ -11,6 +11,11 @@ struct FileData {
 	int melody = -1;
 };
 
+struct UserData {
+	QString name;
+	QString realname;
+};
+
 class Database {
 
 	private :
@@ -20,6 +25,7 @@ class Database {
                              // returns true on success and false on error
 	public :
 		bool addUser( const QString &name, const QString &realname );
+		UserData *getUserData( const QString &user );
                 bool addModifyFile( const QString &filename, int lyrics, int melody );
 		FileData *getFileData( const QString &filename );
 		bool removeUser( const QString &name );
