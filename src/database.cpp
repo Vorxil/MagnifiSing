@@ -24,7 +24,7 @@ bool Database::open() {
 	return true;
 }
 
-bool Database::addUser( const QString &name, const QString &realname ) {
+bool Database::addUser( const QString &name, const QString &password, const QString &realname ) {
 
 	if ( name.isEmpty() || realname.isEmpty() ) {
 		qDebug() << "name or realname can not be empty";
@@ -35,9 +35,10 @@ bool Database::addUser( const QString &name, const QString &realname ) {
 	}
 
 	QSqlQuery q;
-	q.prepare( "INSERT INTO users ( name, realname ) VALUES ( :name, :realname )");
+	q.prepare( "INSERT INTO users ( name, realname, password ) VALUES ( :name, :realname, :password )");
 	q.bindValue( ":name", name );
 	q.bindValue( ":realname", realname );
+        q.bindValue( ":password", password );
 	if ( !q.exec() ) {
 		qDebug() << "Problem adding user: " << name << " " << realname;
 		return false;

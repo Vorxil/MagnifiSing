@@ -1,6 +1,7 @@
 #include "adduser.h"
 #include "ui_adduser.h"
 #include <QMessageBox>
+#include "database.h"
 
 AddUser::AddUser(QWidget *parent) :
     QDialog(parent),
@@ -17,31 +18,13 @@ AddUser::~AddUser()
 void AddUser::on_pushButton_save_clicked()
 {
     ManageUser con;
-    QString name,password;
+    QString name,password, realname;
     name = ui->lineEdit_name->text();
     password = ui->lineEdit_password->text();
+    realname = ui->lineEdit_realname->text();
 
-    if (!con.connOpen())
-    {
-        qDebug() << "Database connection failed!";
-        return;
-    }
-
-    con.connOpen();
-    QSqlQuery query;
-    query.prepare("Insert into user (user_name, password) values ('"+name+"','"+password+"')");
-
-    if(query.exec())
-    {
-      QMessageBox::about(this,tr("Save"),tr("New user created"));
-      con.connClose();
-      ui->lineEdit_name->clear();
-      ui->lineEdit_password->clear();
-    }
-    else
-    {
-        QMessageBox::critical(this,tr("Error:"),query.lastError().text());
-    }
+    Database d( DB_FILENAME );
+    d.addUser( name, password, realname );
 }
 
 

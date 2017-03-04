@@ -13,6 +13,7 @@ struct FileData {
 
 struct UserData {
 	QString name;
+        QString password;
 	QString realname;
 };
 
@@ -24,7 +25,7 @@ class Database {
                 bool open(); // open connection to database
                              // returns true on success and false on error
 	public :
-		bool addUser( const QString &name, const QString &realname );
+		bool addUser( const QString &name, const QString &password, const QString &realname );
 		UserData *getUserData( const QString &user );
                 bool addModifyFile( const QString &filename, int lyrics, int melody );
 		FileData *getFileData( const QString &filename );

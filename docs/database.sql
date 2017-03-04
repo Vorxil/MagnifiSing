@@ -3,6 +3,7 @@ PRAGMA foreign_keys = ON;
 CREATE TABLE users (
   id integer primary key,
   name text unique,
+  password text,
   realname text
 );
 INSERT INTO users ( name, realname ) values ( 'klaus', 'Klaus Lapela' );

@@ -91,7 +91,7 @@
      <rect>
       <x>290</x>
       <y>40</y>
-      <width>77</width>
+      <width>82</width>
       <height>111</height>
      </rect>
     </property>
@@ -109,12 +109,32 @@
        </property>
       </widget>
      </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="layoutWidget_3">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>160</y>
+      <width>241</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_4">
      <item>
-      <widget class="QPushButton" name="pushButton_delete">
+      <widget class="QLabel" name="label_realName_2">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
        <property name="text">
-        <string>Delete</string>
+        <string>Real Name</string>
        </property>
       </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEdit_realname"/>
      </item>
     </layout>
    </widget>
@@ -224,6 +244,10 @@
     <string>Back</string>
    </property>
   </widget>
+  <zorder>tableView</zorder>
+  <zorder>pushButton_view</zorder>
+  <zorder>pushButton_back</zorder>
+  <zorder>groupBox</zorder>
  </widget>
  <resources/>
  <connections/>
