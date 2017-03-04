@@ -84,24 +84,52 @@ bool Database::addModifyFile( const QString &filename, int lyrics, int melody ) 
 	}
 	QFileInfo file( filename );
 	QSqlQuery q;
-	q.prepare( "SELECT id FROM files where filename=:filename" );
+	q.prepare( "SELECT COUNT(*) FROM files where filename=:filename" );
 	q.bindValue( ":filename", file.absoluteFilePath() );
 	if ( !q.exec() ) {
 		qDebug() << "Problem getting id from files table based on filename: " << filename;
 		return false;
 	}
-	if ( q.size() == 0 ) {
+	q.first();
+	int size = q.value( 0 ).toInt();
+	q.finish();
+	if ( size == 0 ) {
 		q.prepare( "INSERT INTO files ( filename, lyrics, melody ) values ( :filename, :lyrics, :melody )" );
 	} else {
-		q.prepare( "UPDATE files SET lyrics=:lyrics, melody=:melody" );
+		q.prepare( "UPDATE files SET lyrics=:lyrics, melody=:melody WHERE filename=:filename" );
 	}
 	q.bindValue( ":lyrics", lyrics );
 	q.bindValue( ":melody", melody );
+	q.bindValue( ":filename", file.absoluteFilePath() );
 	if ( !q.exec() ) {
 		qDebug() << "Problem addmodifying files table";
 		return false;
 	}
 	return true;
+}
+
+FileData *Database::getFileData( const QString &filename ) {
+	FileData *fileData = new FileData;
+	fileData->filename = filename;
+	if ( !open() ) {
+		return fileData;
+	}
+	QFileInfo file( filename );
+	QSqlQuery q;
+	q.prepare( "SELECT * FROM files WHERE filename=:filename" );
+	q.bindValue( ":filename", file.absoluteFilePath() );
+	if ( !q.exec() ) {
+		qDebug() << "Problem getting file data for filename " << filename;
+	}
+	int melodyIndex = q.record().indexOf( "melody" );
+	int lyricsIndex = q.record().indexOf( "lyrics" );
+	if ( !q.next() ) {
+		qDebug() << "No rows found in database contining filename " << filename;
+	} else {
+		fileData->melody = q.value( melodyIndex ).toInt();
+		fileData->lyrics = q.value( lyricsIndex ).toInt();
+	}
+	return fileData;
 }
 
 Database::~Database() {
