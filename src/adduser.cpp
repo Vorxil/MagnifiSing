@@ -21,12 +21,21 @@ AddUser::AddUser(QWidget *parent) :
         model->setItem( i, 0, item1 );
     }
     ui->usersTable->setModel( model );
+    connect( ui->usersTable, SIGNAL( clicked( const QModelIndex & ) ), this, SLOT( onUserTableClicked( const QModelIndex & ) ) );
 
 }
 
 AddUser::~AddUser()
 {
     delete ui;
+}
+
+void AddUser::onUserTableClicked( const QModelIndex &index ) {
+	if ( index.isValid() ) {
+		Database d( DB_FILENAME );
+		UserData *userData = d.getUserData( index.data().toString() );
+		qDebug() << userData->name << userData->realname;
+	}
 }
 
 void AddUser::on_pushButton_save_clicked()

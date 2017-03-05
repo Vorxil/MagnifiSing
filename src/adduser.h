@@ -3,6 +3,7 @@
 #include "manageuser.h"
 
 #include <QDialog>
+#include <QModelIndex>
 
 namespace Ui {
 class AddUser;
@@ -17,6 +18,9 @@ public:
     ~AddUser();
 
 private slots:
+
+    void onUserTableClicked( const QModelIndex &index );
+
     void on_pushButton_save_clicked();
 
     void on_pushButton_delete_clicked();
