@@ -21,38 +21,6 @@ void ManageUser::on_pushButton_clicked()
     username = ui->lineEdit_username->text();
     password = ui->lineEdit_password->text();
 
-    if (!connOpen())
-    {
-        qDebug() << "Database connection failed!";
-        return;
-    }
-
-    connOpen();
-    QSqlQuery query;
-    query.prepare("Select * from user where user_name = '"+username+"' and password = '"+password+"'");
-
-    if(query.exec())
-    {
-        int count = 0;
-        while(query.next())
-        {
-            count++;
-        }
-        if(count == 1)
-        {
-            qDebug() << "Logging In";
-            connClose();
-            this->hide();
-            startsingingview = new StartSingingView();
-            startsingingview->show();
-        }
-
-        if(count < 1)
-        {
-             QMessageBox::about(this,tr("Error"),tr("Incorrect Username and Password"));
-        }
-    }
-
 }
 
 void ManageUser::on_pushButton_add_clicked()

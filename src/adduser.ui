@@ -139,7 +139,7 @@
     </layout>
    </widget>
   </widget>
-  <widget class="QTableView" name="tableView">
+  <widget class="QTableView" name="usersTable">
    <property name="geometry">
     <rect>
      <x>40</x>
@@ -244,7 +244,7 @@
     <string>Back</string>
    </property>
   </widget>
-  <zorder>tableView</zorder>
+  <zorder>usersTable</zorder>
   <zorder>pushButton_view</zorder>
   <zorder>pushButton_back</zorder>
   <zorder>groupBox</zorder>

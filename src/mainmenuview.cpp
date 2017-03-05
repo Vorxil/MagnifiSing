@@ -31,6 +31,6 @@ void MainMenuView::on_buttonHelp_clicked()
 
 void MainMenuView::on_buttonLogIn_clicked()
 {
-    ManageUser mnguser;
-    mnguser.exec();
+    AddUser addUser;
+    addUser.exec();
 }
