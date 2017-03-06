@@ -42,6 +42,9 @@ int sungTone;
 int oldMidiTones[windowWidth/(2*updateInterval)];
 int midiIndex;
 
+int correctTonesCount;
+int totalTonesCount;
+
 
 
 SingingViewController::SingingViewController(SingingView* singingView, StartSingingView* ssView)
@@ -134,10 +137,20 @@ void SingingViewController::updateMidiView(){
     if(abs(oldMidiTones[midiIndex %(windowWidth/(2*updateInterval))]-sungTone)<2){
         midiView->addCorrectTone(sungTone);
         midiView->addWrongTone(-500);
+
+        totalTonesCount++;
+        correctTonesCount++;
+        midiView->setCurrentScore(correctTonesCount);
+        midiView->setTotalTones(totalTonesCount);
     }else{
         /* Add wrong tone to midiview */
+        midiView->setTotalTones(totalTonesCount);
         midiView->addCorrectTone(-500);
         midiView->addWrongTone(sungTone);
+
+        if(oldMidiTones[midiIndex %(windowWidth/(2*updateInterval))] > -60 || sungTone > -60){
+            totalTonesCount++;
+        }
     }
 
     /* Stop if reaches end of midi track */
@@ -177,6 +190,11 @@ void SingingViewController::stop(){
         midiView->addCorrectTone(-500);
         midiView->addWrongTone(-500);
     }
+
+    correctTonesCount = 0;
+    totalTonesCount = 0;
+    midiView->setCurrentScore(correctTonesCount);
+    midiView->setTotalTones(totalTonesCount);
 }
 
 void SingingViewController::updateMidiFile(QString filepath){

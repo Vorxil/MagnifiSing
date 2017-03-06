@@ -24,6 +24,8 @@ int i;
 int highestTone;
 int lowestTone;
 int currentTime;
+int currentScore;
+int totalToneCount;
 double timeWindow;
 
 
@@ -73,7 +75,10 @@ void MIDIview::paintEvent(QPaintEvent *event){
     p.drawText(10,px->height()*0.75,"C2");
     f.setPixelSize(25);
     p.setFont(f);
-    p.drawText(px->width()*0.9,px->height()*0.1,QString::number(currentTime/1000));
+    QRectF r1(px->width()*0.75,10,px->width()*0.25,px->height()*0.2);
+    QString s1;
+    s1.setNum(currentScore/(float)totalToneCount,'g',2);
+    p.drawText(r1,"Score: " + QString::number(currentScore) +  "\nCorr./Tot.: " + s1 + "\nTime: " + QString::number(currentTime/1000));
 
 
 
@@ -193,6 +198,12 @@ void MIDIview::setCurrentTime(int time){
     currentTime = time;
 }
 
+void MIDIview::setCurrentScore(int score){
+    currentScore = score;
+}
+void MIDIview::setTotalTones(int total){
+    totalToneCount = total;
+}
 
 void MIDIview::addLyrics(QString text){
     lyricsIdx = (lyricsIdx+1)%(2*windowWidth/updateInterval);
