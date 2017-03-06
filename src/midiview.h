@@ -25,6 +25,8 @@ public:
     void addCorrectTone(int tone);
     void addWrongTone(int tone);
     void setCurrentTime(int time);
+    void setCurrentScore(int score);
+    void setTotalTones(int total);
 private:
     Ui::MIDIview *ui;
     void paintEvent(QPaintEvent *event);
