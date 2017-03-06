@@ -26,6 +26,7 @@ public slots:
     void enterSingingView();
 private:
     Ui::MainWindow *ui;
+    void resizeEvent(QResizeEvent *event);
 };
 
 #endif // MAINWINDOW_H

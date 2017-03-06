@@ -18,6 +18,13 @@ ManageUser::~ManageUser()
 {
     delete ui;
 }
+void ManageUser::resizeEvent(QResizeEvent *event){
+    QPixmap background(":/images/background.jpg");
+    background = background.scaled(this->size(), Qt::IgnoreAspectRatio);
+    QPalette p = palette();
+    p.setBrush(QPalette::Background, background);
+    this->setPalette(p);
+}
 
 void ManageUser::on_pushButton_clicked()
 {

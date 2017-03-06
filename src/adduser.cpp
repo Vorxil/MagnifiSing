@@ -35,6 +35,14 @@ AddUser::~AddUser()
     delete ui;
 }
 
+void AddUser::resizeEvent(QResizeEvent *event){
+    QPixmap background(":/images/background.jpg");
+    background = background.scaled(this->size(), Qt::IgnoreAspectRatio);
+    QPalette p = palette();
+    p.setBrush(QPalette::Background, background);
+    this->setPalette(p);
+}
+
 void AddUser::onUserTableClicked( const QModelIndex &index ) {
 	if ( index.isValid() ) {
 		Database d( DB_FILENAME );

@@ -70,6 +70,14 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::resizeEvent(QResizeEvent *event){
+    QPixmap background(":/images/background.jpg");
+    background = background.scaled(this->size(), Qt::IgnoreAspectRatio);
+    QPalette p = palette();
+    p.setBrush(QPalette::Background, background);
+    this->setPalette(p);
+}
+
 void MainWindow::enterMainMenu(){
     startSingingView->hide();
     helpView->hide();

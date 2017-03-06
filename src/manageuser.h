@@ -27,6 +27,7 @@ private slots:
 private:
     Ui::ManageUser *ui;
     StartSingingView *startsingingview;
+    void resizeEvent(QResizeEvent *event);
 };
 
 #endif // MANAGEUSER_H

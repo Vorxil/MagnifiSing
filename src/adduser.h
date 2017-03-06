@@ -33,6 +33,7 @@ private slots:
 
 private:
     Ui::AddUser *ui;
+    void resizeEvent(QResizeEvent *event);
 };
 
 #endif // ADDUSER_H
