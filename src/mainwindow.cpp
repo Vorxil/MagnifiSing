@@ -26,6 +26,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     ui->setupUi(this);
+    QPixmap background(":/images/background.jpg");
+    background = background.scaled(this->size(), Qt::IgnoreAspectRatio);
+    QPalette palette;
+    palette.setBrush(QPalette::Background, background);
+    this->setPalette(palette);
 
     /* Add all views to the Layout */
     ui->mainLayout->addWidget(mainMenuView);

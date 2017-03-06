@@ -136,3 +136,6 @@ SOURCES += helpview.cpp \
     manageuser.cpp \
     adduser.cpp \
     audio_input/hamminglpfilter.cpp
+
+RESOURCES += \
+    resource.qrc

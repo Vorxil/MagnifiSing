@@ -8,6 +8,10 @@ ManageUser::ManageUser(QWidget *parent) :
     ui(new Ui::ManageUser)
 {
     ui->setupUi(this);
+    QPixmap background(":/images/background.jpg");
+    QPalette palette;
+    palette.setBrush(QPalette::Background, background);
+    this->setPalette(palette);
 }
 
 ManageUser::~ManageUser()

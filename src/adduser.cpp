@@ -11,6 +11,11 @@ AddUser::AddUser(QWidget *parent) :
     ui(new Ui::AddUser)
 {
     ui->setupUi(this);
+    QPixmap background(":/images/background.jpg");
+    background = background.scaled(this->size(), Qt::IgnoreAspectRatio);
+    QPalette palette;
+    palette.setBrush(QPalette::Background, background);
+    this->setPalette(palette);
 
     Database d( DB_FILENAME );
     QList<QString> *users = d.getUsers();
