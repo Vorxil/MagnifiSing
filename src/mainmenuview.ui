@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>667</width>
-    <height>370</height>
+    <height>560</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -70,6 +70,12 @@
        </property>
        <property name="sizeType">
         <enum>QSizePolicy::MinimumExpanding</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
        </property>
       </spacer>
      </item>
@@ -167,7 +173,7 @@
             </font>
            </property>
            <property name="text">
-            <string>Help</string>
+            <string>About</string>
            </property>
           </widget>
          </item>
