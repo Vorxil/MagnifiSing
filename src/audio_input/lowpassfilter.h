@@ -7,8 +7,8 @@
 class LowPassFilter
 {
 protected:
-    double const * filterConsts;
-    double * oldData;
+    float const * filterConsts;
+    float * oldData;
     const int filterLength, dataLength;
 public:
 
@@ -18,7 +18,7 @@ public:
      * @param _filterLength - Length of the filter, should be odd
      * @param _dataLength - Length of the data that is being filtered, should be greater than filter length.
      */
-    LowPassFilter(double const * _filterConsts, const int _filterLength, const int _dataLength);
+    LowPassFilter(float const * _filterConsts, const int _filterLength, const int _dataLength);
 
     ~LowPassFilter();
 
@@ -27,7 +27,7 @@ public:
      * @param input
      * @param output
      */
-    void filter(double const * input, double * output);
+    void filter(float const * input, float * output);
 
     /**
      * @brief downsample - downsample the current data window by the downsampleFactor
@@ -36,7 +36,7 @@ public:
      * @param dataLen - length of the data window
      * @param downsampleFactor - factor to downsample, needs to be a multiple of dataLen
      */
-    static void downsample(double const * input, double * output, int dataLen, int downsampleFactor);
+    static void downsample(float const * input, float * output, int dataLen, int downsampleFactor);
 };
 
 #endif // LOWPASSFILTER_H
