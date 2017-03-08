@@ -19,6 +19,23 @@ void AddUser::updateUsers() {
     ui->usersTable->setModel( model );
 }
 
+void AddUser::editState() {
+    ui->pushButton_save->setEnabled( true );
+    ui->pushButton_create->setEnabled( false );
+
+    ui->lineEdit_name->setEnabled( false );
+}
+
+void AddUser::createState() {
+    ui->pushButton_save->setEnabled( false );
+    ui->pushButton_create->setEnabled( true );
+
+    ui->lineEdit_name->setEnabled( true );
+    ui->lineEdit_name->setText( "" );
+    ui->lineEdit_password->setText( "" );
+    ui->lineEdit_realname->setText( "" );
+}
+
 AddUser::AddUser(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::AddUser)
@@ -31,8 +48,11 @@ AddUser::AddUser(QWidget *parent) :
     this->setPalette(palette);
 
     updateUsers();
+    createState();
 
     connect( ui->usersTable, SIGNAL( clicked( const QModelIndex & ) ), this, SLOT( onUserTableClicked( const QModelIndex & ) ) );
+    connect( ui->pushButton_create, SIGNAL( pressed() ), this, SLOT( onCreateUserClicked() ) );
+    connect( ui->pushButton_plus, SIGNAL( pressed() ), this, SLOT( onPlusClicked() ) );
 
 }
 
@@ -49,6 +69,16 @@ void AddUser::resizeEvent(QResizeEvent *event){
     this->setPalette(p);
 }
 
+void AddUser::onCreateUserClicked() {
+    QString name,password, realname;
+    name = ui->lineEdit_name->text();
+    password = ui->lineEdit_password->text();
+    realname = ui->lineEdit_realname->text();
+    db->addUser( name, password, realname );
+    updateUsers();
+    editState();
+}
+
 void AddUser::onUserTableClicked( const QModelIndex &index ) {
 	if ( index.isValid() ) {
 		QString name = index.data().toString();
@@ -56,6 +86,7 @@ void AddUser::onUserTableClicked( const QModelIndex &index ) {
     		ui->lineEdit_name->setText( userData->name );
    		ui->lineEdit_password->setText( userData->password );
     		ui->lineEdit_realname->setText( userData->realname );
+		editState();
 	}
 }
 
@@ -65,10 +96,15 @@ void AddUser::on_pushButton_save_clicked()
     name = ui->lineEdit_name->text();
     password = ui->lineEdit_password->text();
     realname = ui->lineEdit_realname->text();
-    db->addUser( name, password, realname );
+    db->modifyUser( name, password, realname );
     updateUsers();
+    editState();
 }
 
+
+void AddUser::onPlusClicked() {
+    createState();
+}
 
 void AddUser::on_pushButton_delete_clicked()
 {

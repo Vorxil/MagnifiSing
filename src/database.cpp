@@ -45,6 +45,28 @@ bool Database::addUser( const QString &name, const QString &password, const QStr
 	return true;
 }
 
+bool Database::modifyUser( const QString &name, const QString &password, const QString &realname ) {
+	if ( name.isEmpty() || realname.isEmpty() ) {
+		qDebug() << "name or realname can not be empty";
+		return false;
+	}
+	if ( !open() ) {
+		return false;
+	}
+
+	QSqlQuery q;
+	q.prepare( "UPDATE users SET password=:password, realname=:realname WHERE name=:name");
+	q.bindValue( ":name", name );
+	q.bindValue( ":realname", realname );
+        q.bindValue( ":password", password );
+	if ( !q.exec() ) {
+		qDebug() << "Problem modifying user: " << name << " " << realname;
+		return false;
+	}
+	return true;
+}
+
+
 bool Database::removeUser( const QString &name ) {
 	if ( name.isEmpty() ) {
 		qDebug() << "name can not be empty";

@@ -19,9 +19,10 @@ public:
 
 private slots:
 
-    void updateUsers();
 
     void onUserTableClicked( const QModelIndex &index );
+    void onCreateUserClicked();
+    void onPlusClicked();
 
     void on_pushButton_save_clicked();
 
@@ -34,6 +35,9 @@ private slots:
     void on_pushButton_back_clicked();
 
 private:
+    void editState();
+    void createState();
+    void updateUsers();
     Ui::AddUser *ui;
     void resizeEvent(QResizeEvent *event);
 };
