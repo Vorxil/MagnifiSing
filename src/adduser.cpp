@@ -6,6 +6,8 @@
 #include "database.h"
 #include "mainmenuview.h"
 
+extern Database *db;
+
 AddUser::AddUser(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::AddUser)
@@ -17,8 +19,7 @@ AddUser::AddUser(QWidget *parent) :
     palette.setBrush(QPalette::Background, background);
     this->setPalette(palette);
 
-    Database d( DB_FILENAME );
-    QList<QString> *users = d.getUsers();
+    QList<QString> *users = db->getUsers();
 
     QStandardItemModel *model = new QStandardItemModel( users->size(), 1, this );
     for ( int i = 0; i < users->size(); i++ ) {
@@ -45,8 +46,7 @@ void AddUser::resizeEvent(QResizeEvent *event){
 
 void AddUser::onUserTableClicked( const QModelIndex &index ) {
 	if ( index.isValid() ) {
-		Database d( DB_FILENAME );
-		UserData *userData = d.getUserData( index.data().toString() );
+		UserData *userData = db->getUserData( index.data().toString() );
 		qDebug() << userData->name << userData->realname;
 	}
 }
@@ -58,8 +58,7 @@ void AddUser::on_pushButton_save_clicked()
     password = ui->lineEdit_password->text();
     realname = ui->lineEdit_realname->text();
 
-    Database d( DB_FILENAME );
-    d.addUser( name, password, realname );
+    db->addUser( name, password, realname );
 }
 
 
