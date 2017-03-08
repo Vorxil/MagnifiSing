@@ -8,6 +8,17 @@
 
 extern Database *db;
 
+
+void AddUser::updateUsers() {
+    QList<QString> *users = db->getUsers();
+    QStandardItemModel *model = new QStandardItemModel( users->size(), 1, this );
+    for ( int i = 0; i < users->size(); i++ ) {
+        QStandardItem *item1 = new QStandardItem( users->at( i ) );
+        model->setItem( i, 0, item1 );
+    }
+    ui->usersTable->setModel( model );
+}
+
 AddUser::AddUser(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::AddUser)
@@ -19,14 +30,8 @@ AddUser::AddUser(QWidget *parent) :
     palette.setBrush(QPalette::Background, background);
     this->setPalette(palette);
 
-    QList<QString> *users = db->getUsers();
+    updateUsers();
 
-    QStandardItemModel *model = new QStandardItemModel( users->size(), 1, this );
-    for ( int i = 0; i < users->size(); i++ ) {
-        QStandardItem *item1 = new QStandardItem( users->at( i ) );
-        model->setItem( i, 0, item1 );
-    }
-    ui->usersTable->setModel( model );
     connect( ui->usersTable, SIGNAL( clicked( const QModelIndex & ) ), this, SLOT( onUserTableClicked( const QModelIndex & ) ) );
 
 }
@@ -60,8 +65,8 @@ void AddUser::on_pushButton_save_clicked()
     name = ui->lineEdit_name->text();
     password = ui->lineEdit_password->text();
     realname = ui->lineEdit_realname->text();
-
     db->addUser( name, password, realname );
+    updateUsers();
 }
 
 

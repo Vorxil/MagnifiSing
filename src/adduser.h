@@ -19,6 +19,8 @@ public:
 
 private slots:
 
+    void updateUsers();
+
     void onUserTableClicked( const QModelIndex &index );
 
     void on_pushButton_save_clicked();
