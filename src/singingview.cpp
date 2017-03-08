@@ -62,3 +62,20 @@ void SingingView::on_silentThresholdSlider_sliderMoved(int position)
 {
     emit silentThresholdSliderMoved(position);
 }
+
+int SingingView::repeatButtonChecked(){
+    return ui->repeatCheckBox->isChecked();
+}
+
+int SingingView::getRepeatStart(){
+    return ui->repeatStartSpinBox->value();
+}
+
+int SingingView::getRepeatEnd(){
+    return ui->repeatEndSpinBox->value();
+}
+
+void SingingView::setRepeatMaximumSeconds(int sec){
+    ui->repeatStartSpinBox->setMaximum(sec);
+    ui->repeatEndSpinBox->setMaximum(sec);
+}

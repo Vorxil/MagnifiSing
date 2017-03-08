@@ -35,6 +35,8 @@ int toneEventsNumber;
 int textEventsNumber;
 int toneTrack;
 int textTrack;
+int toneTrackEnded;
+int textTrackEnded;
 int keyNumber;
 int midiTone;
 QString midiText;
@@ -160,6 +162,19 @@ void SingingViewController::updateMidiView(){
     if((currentMidiToneEvent >= toneEventsNumber-1) || (currentMidiTextEvent >= textEventsNumber-1)){
         stop();
     }
+
+    /* Repeat part of the midi file if repeat button toggled*/
+    if(singView->repeatButtonChecked()){
+        if(total_time + m_time.elapsed() >= singView->getRepeatEnd()*1000){
+            total_time = singView->getRepeatStart()*1000;
+
+            currentMidiToneEvent = 0;
+            currentMidiTextEvent = 0;
+            m_time.restart();
+
+        }
+    }
+
 }
 
 int SingingViewController::freqToSemitone(double frequency){
@@ -214,6 +229,8 @@ void SingingViewController::updateMidiFile(QString filepath){
         startsingingView->setToneTrackComboBox(midiFile.getTrackCount(), getTrackNames());
         startsingingView->setContinueButtonEnabled(1);
         startsingingView->setMidiTextAreaText(getMidiTextAsString(midiFile));
+
+        singView->setRepeatMaximumSeconds(midiFile.getTotalTimeInSeconds());
     }else{
         qDebug() << "Error in midi import";
         startsingingView->setContinueButtonEnabled(0);

@@ -20,6 +20,10 @@ public:
     void setPlayPauseButtonText(QString text);
     void setSilentThresholdSlider(int position);
     int getSilentThresholdSliderPosition();
+    int repeatButtonChecked();
+    int getRepeatStart();
+    int getRepeatEnd();
+    void setRepeatMaximumSeconds(int sec);
 private slots:
     void on_menuButton_clicked();
 
