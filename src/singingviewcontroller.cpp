@@ -10,8 +10,6 @@
 #include <QStringList>
 #include "audio_input/audioinput.h"
 #include "audio_input/cepsdwt.h"
-#include "audio_input/hamminglpfilter.h"
-#include "audio_input/pitchpipeline.h"
 #include <QDebug>
 #include "midiview.h"
 #include "singingview.h"
@@ -26,13 +24,11 @@ const double passband = 2000;
 const double transband = 500;
 const double fs = 48000;
 const int downFactor = 8;
-const int dwtLevels = 3;
-const double silence = 0.005;
+const int dwtLevels = 7;
+const double silence = 30;
 const double peak = 0.05;
 
-HammingLPFilter filter(48000,2000,500,8192);
-cepsDWT cepsdwt(1024,3,0.005,0.05);
-pitchPipeline pipe(&cepsdwt, &filter, 8192, 8);
+cepsDWT cepsdwt(RETURN_SIZE,dwtLevels,silence,peak);
 
 QTime m_time;
 int total_time;
@@ -95,7 +91,7 @@ SingingViewController::~SingingViewController(){
 void SingingViewController::readSamples(){
     samples = audioInput->readMore();
     if ( samples != 0 ) {
-        frequency = pipe.detect(samples,48000);
+        frequency = cepsdwt.detectPitchFrequency(samples,SAMPLE_RATE);
         qDebug() << "\nFrequency: " << frequency;
     }
 }
