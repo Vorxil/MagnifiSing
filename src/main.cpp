@@ -7,6 +7,7 @@
 
 
 #include "audio_input/hamminglpfilter.h"
+#include "audio_input/pitchpipeline.h"
 #include <fstream>
 #include <iostream>
 #include <vector>
@@ -80,16 +81,15 @@ int main(int argc, char *argv[])
 
     std::cout << "Generating filter" << std::endl;
 
-    HammingLPFilter filter(fs,passband,transband,frameLength);
+
 
     std::cout << "Filter length " << HammingLPFilter::filterLen(fs,transband) << std::endl;
 
 
-    filtered.reserve(size);
 
     std::cout << "Filtering..." << std::endl;
 
-    long long sum = 0;
+    /*long long sum = 0;
 
     for(int frame = 0; frame < frames ; frame++) {
         t1 = clock();
@@ -148,19 +148,32 @@ int main(int argc, char *argv[])
 
     io.close();
 
-    std::cout << "Closing file " << downs << std::endl;
+    std::cout << "Closing file " << downs << std::endl; */
 
+    //HammingLPFilter filter(fs,passband,transband,frameLength);
+    //cepsDWT pitch(frameLength/downFactor,dwtLevels,silence,peak);
 
+    HammingLPFilter filter(48000,2000,500,8192);
+    cepsDWT pitch(1024,3,0.005,0.05);
+
+    filtered.reserve(frameLength);
+    //filtered.reserve(size);
+    downSampled.reserve(frameLength/downFactor);
+    //downSampled.reserve(size/downFactor);
+
+    pitchPipeline pipe(&pitch,&filter,frameLength,downFactor);
     double frequency;
     std::cout << "Calculating pitch frequencies..." << std::endl;
     for(int frame = 0; frame < frames ; frame++) {
-        frequency = pitch.detectPitchFrequency(downSampled.data() + frame*frameLength/downFactor, fs/downFactor);
+        frequency = pipe.detect(raw.data()+frame*frameLength,fs);
         freq.push_back(frequency);
         std::cout << "Frame pitch " << freq[frame] << " Hz" << std::endl;
         std::cout << "Frame " << frame << " complete" << std::endl;
     }
 
     std::cout << "Calculating done" << std::endl;
+
+
 
     std::cout << "Opening file " << pitches << std::endl;
 
@@ -181,6 +194,8 @@ int main(int argc, char *argv[])
 
     std::cout << "Closing file " << pitches << std::endl;
 
+    return 0;
+
 
     /*QApplication a(argc, argv);
     MainWindow w;
@@ -192,5 +207,5 @@ int main(int argc, char *argv[])
 
     a.exit(0);
     return a.exec();*/
-    return 0;
+
 }

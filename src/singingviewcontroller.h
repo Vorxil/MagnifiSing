@@ -6,7 +6,7 @@
 #include "startsingingview.h"
 #include "midiview.h"
 #include "audio_input/audioinput.h"
-#include "audio_input/cepsdwt.h"
+#include "audio_input/pitchpipeline.h"
 #include "midifile/MidiFile.h"
 
 class SingingViewController : public QObject

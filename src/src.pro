@@ -75,7 +75,8 @@ HEADERS += helpview.h \
            aquila/source/window/RectangularWindow.h \
     manageuser.h \
     adduser.h \
-    audio_input/hamminglpfilter.h
+    audio_input/hamminglpfilter.h \
+    audio_input/pitchpipeline.h
 
 FORMS += helpview.ui \
          mainmenuview.ui \
@@ -135,7 +136,8 @@ SOURCES += helpview.cpp \
            aquila/source/window/HannWindow.cpp \
     manageuser.cpp \
     adduser.cpp \
-    audio_input/hamminglpfilter.cpp
+    audio_input/hamminglpfilter.cpp \
+    audio_input/pitchpipeline.cpp
 
 RESOURCES += \
     resource.qrc

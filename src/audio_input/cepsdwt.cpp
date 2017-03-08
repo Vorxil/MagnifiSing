@@ -140,6 +140,8 @@ double cepsDWT::detectPitchFrequency(const double *src, double fs) {
         }
     }
 
+    //qDebug() << a << " " << k << " " << c << "\n";
+
     //Return pitch frequency
     return fs/k;
 
