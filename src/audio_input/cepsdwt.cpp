@@ -7,6 +7,9 @@
  * @param length - length of frame, must be a power of 2
  * @param dwtLevels - number DWT operations to perform
  */
+
+int SILENT_THRESHOLD = 30;
+
 cepsDWT::cepsDWT(int length, int dwtLevels) : m_length(length), m_dwtLevels(dwtLevels){
     fftBuffer.reserve(length);
     dwtBuffer.reserve(length);
@@ -127,4 +130,12 @@ double cepsDWT::detectPitchFrequency(const double *src, double fs) {
     //Return pitch frequency
     return fs/k;
 
+}
+
+void cepsDWT::setSilentThreshold(int threshold){
+    SILENT_THRESHOLD = threshold;
+}
+
+int cepsDWT::getSilentThreshold(){
+    return SILENT_THRESHOLD;
 }

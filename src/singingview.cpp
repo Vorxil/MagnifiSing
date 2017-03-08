@@ -9,6 +9,8 @@ SingingView::SingingView(QWidget *parent) :
     ui(new Ui::SingingView)
 {
     ui->setupUi(this);
+    ui->silentThresholdSlider->setMaximum(300);
+    ui->silentThresholdSlider->setMinimum(0);
 
     midiView = new MIDIview();
     ui->viewLayout->addWidget(midiView);
@@ -46,4 +48,17 @@ void SingingView::on_stopButton_clicked()
 void SingingView::on_backButton_clicked()
 {
     emit backButtonClicked();
+}
+
+void SingingView::setSilentThresholdSlider(int position){
+    ui->silentThresholdSlider->setSliderPosition(position);
+}
+
+int SingingView::getSilentThresholdSliderPosition(){
+    return ui->silentThresholdSlider->sliderPosition();
+}
+
+void SingingView::on_silentThresholdSlider_sliderMoved(int position)
+{
+    emit silentThresholdSliderMoved(position);
 }

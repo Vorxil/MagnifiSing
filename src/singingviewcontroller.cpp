@@ -54,12 +54,15 @@ SingingViewController::SingingViewController(SingingView* singingView, StartSing
     midiView = singingView->getMidiView();
     midiView->setToneInterval(-24,24);
 
+    singingView->setSilentThresholdSlider(cepsdwt.getSilentThreshold());
+
     audioInput = new audioinput();
     connect(audioInput,SIGNAL(readyRead()),this,SLOT(readSamples()));
     connect(singingView,SIGNAL(playButtonClicked()),this,SLOT(play_pause()));
     connect(singingView,SIGNAL(menuButtonClicked()),this,SLOT(stop()));
     connect(singingView,SIGNAL(stopButtonClicked()),this,SLOT(stop()));
     connect(singingView,SIGNAL(backButtonClicked()),this,SLOT(stop()));
+    connect(singingView,SIGNAL(silentThresholdSliderMoved(int)),this,SLOT(setSilentThreshold(int)));
     connect(startsingingView,SIGNAL(loadFileButtonClicked(QString)),this,SLOT(updateMidiFile(QString)));
     connect(startsingingView,SIGNAL(textTrackComboBoxIndexChanged(int)),this,SLOT(setTextTrack(int)));
     connect(startsingingView,SIGNAL(toneTrackComboBoxIndexChanged(int)),this,SLOT(setToneTrack(int)));
@@ -304,4 +307,8 @@ QStringList SingingViewController::getTrackNames(){
         trackList << track;
     }
     return trackList;
+}
+
+void SingingViewController::setSilentThreshold(int threshold){
+    cepsdwt.setSilentThreshold(threshold);
 }

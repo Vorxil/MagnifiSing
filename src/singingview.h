@@ -18,6 +18,8 @@ public:
     MIDIview* getMidiView();
 
     void setPlayPauseButtonText(QString text);
+    void setSilentThresholdSlider(int position);
+    int getSilentThresholdSliderPosition();
 private slots:
     void on_menuButton_clicked();
 
@@ -28,11 +30,14 @@ private slots:
 
     void on_backButton_clicked();
 
+    void on_silentThresholdSlider_sliderMoved(int position);
+
 signals:
     void menuButtonClicked();
     void playButtonClicked();
     void stopButtonClicked();
     void backButtonClicked();
+    void silentThresholdSliderMoved(int position);
 
 private:
     Ui::SingingView *ui;

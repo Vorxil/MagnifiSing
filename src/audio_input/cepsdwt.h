@@ -6,7 +6,7 @@
 #include <memory>
 
 #define EPSILON 0.00000001
-#define SILENT_THRESHOLD 30
+//#define SILENT_THRESHOLD 30
 
 class cepsDWT : PitchFreqDetector {
 private:
@@ -19,6 +19,8 @@ public:
     cepsDWT(int length, int dwtLevels);
     ~cepsDWT();
     double detectPitchFrequency(const double *src, double fs);
+    void setSilentThreshold(int threshold);
+    int getSilentThreshold();
 };
 
 #endif // CEPSDWT_H
