@@ -96,8 +96,8 @@ UserData *Database::getUserData( const QString &name ) {
 	if ( !q.next() ) {
 		qDebug() << "No rows found in database contining name " << name;
 	} else {
-		userData->name = q.value( nameIndex ).toInt();
-		userData->realname = q.value( realNameIndex ).toInt();
+		userData->name = q.value( nameIndex ).toString();
+		userData->realname = q.value( realNameIndex ).toString();
 	}
 	return userData;
 }
@@ -141,7 +141,7 @@ FileData *Database::getFileData( const QString &filename ) {
 	}
 	QFileInfo file( filename );
 	QSqlQuery q;
-	q.prepare( "SELECT * FROM files WHERE filename=:filename" );
+	q.prepare( "SELECT melody,lyrics FROM files WHERE filename=:filename" );
 	q.bindValue( ":filename", file.absoluteFilePath() );
 	if ( !q.exec() ) {
 		qDebug() << "Problem getting file data for filename " << filename;

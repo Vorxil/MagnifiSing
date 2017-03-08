@@ -46,8 +46,11 @@ void AddUser::resizeEvent(QResizeEvent *event){
 
 void AddUser::onUserTableClicked( const QModelIndex &index ) {
 	if ( index.isValid() ) {
+		QString name = index.data().toString();
 		UserData *userData = db->getUserData( index.data().toString() );
-		qDebug() << userData->name << userData->realname;
+    		ui->lineEdit_name->setText( userData->name );
+   		ui->lineEdit_password->setText( userData->password );
+    		ui->lineEdit_realname->setText( userData->realname );
 	}
 }
 
@@ -67,7 +70,6 @@ void AddUser::on_pushButton_delete_clicked()
     QString name,password;
     name = ui->lineEdit_name->text();
     password = ui->lineEdit_password->text();
-
 }
 
 void AddUser::on_pushButton_view_clicked()
