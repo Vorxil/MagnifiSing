@@ -14,9 +14,11 @@ private:
     std::vector<double> dwtBuffer;
     const int m_length;
     const int m_dwtLevels;
+    const double m_silenceThreshold;
+    const double m_peakThreshold;
     std::shared_ptr<Aquila::Fft> fftObj;
 public:
-    cepsDWT(int length, int dwtLevels);
+    cepsDWT(int length, int dwtLevels, double silenceThreshold, double peakThreshold);
     ~cepsDWT();
     double detectPitchFrequency(const double *src, double fs);
 };

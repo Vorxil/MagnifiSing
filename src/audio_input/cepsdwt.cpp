@@ -1,13 +1,17 @@
 #include "cepsdwt.h"
 #include "aquila/transform/FftFactory.h"
 #include <algorithm>
+#include <QDebug>
 
 /**
  * @brief cepsDWT::cepsDWT Constructor of a cepsDWT object
  * @param length - length of frame, must be a power of 2
  * @param dwtLevels - number DWT operations to perform
+ * @param silenceThreshold - upper RMS threshold for signal considered to be silence
+ * @param peakThreshold - magnitude relative to the max peak that the base of the pitch peak must be below
  */
-cepsDWT::cepsDWT(int length, int dwtLevels) : m_length(length), m_dwtLevels(dwtLevels){
+cepsDWT::cepsDWT(int length, int dwtLevels, double silenceThreshold, double peakThreshold) : m_length(length), m_dwtLevels(dwtLevels),
+        m_silenceThreshold(silenceThreshold), m_peakThreshold(peakThreshold){
     fftBuffer.reserve(length);
     dwtBuffer.reserve(length);
     fftObj = Aquila::FftFactory::getFft(length);
@@ -51,7 +55,7 @@ double rms(const double* src, int len) {
 double cepsDWT::detectPitchFrequency(const double *src, double fs) {
 
     //Check silence threshold
-    if (rms(src,m_length) <= SILENT_THRESHOLD) return 0;
+    if (rms(src,m_length) <= m_silenceThreshold) return 0;
 
     //Calculate FFT
     fftBuffer = fftObj->fft(src);
@@ -95,7 +99,7 @@ double cepsDWT::detectPitchFrequency(const double *src, double fs) {
     }
 
     for(int i=0; i < len/2; i++) {
-        if (dwtBuffer[i] <= 0.05*c_max) {
+        if (dwtBuffer[i] <= m_peakThreshold*c_max) {
             a = i;
             break;
         }
@@ -109,7 +113,7 @@ double cepsDWT::detectPitchFrequency(const double *src, double fs) {
     }
 
     for(int i=b+1; i < len/2; i++) {
-        if (dwtBuffer[i] <= 0.05*d_max) {
+        if (dwtBuffer[i] <= m_peakThreshold*d_max) {
             c = i;
             break;
         }

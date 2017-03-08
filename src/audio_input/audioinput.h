@@ -7,7 +7,7 @@
 
 #define SAMPLE_RATE 48000
 #define SAMPLE_SIZE 16
-#define RETURN_SIZE 2048        // Number of samples returned when calling readMore()
+#define RETURN_SIZE 8192        // Number of samples returned when calling readMore()
 
 
 class audioinput : public QObject
