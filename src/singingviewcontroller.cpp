@@ -21,7 +21,7 @@ const double const1 = 3/log(2);
 const double const2 = log(4685120000L);
 
 
-cepsDWT cepsdwt(RETURN_SIZE,6);
+cepsDWT cepsdwt(RETURN_SIZE,3,0.005,0.05);
 QTime m_time;
 int total_time;
 QTimer *timer;

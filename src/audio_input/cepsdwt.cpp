@@ -149,6 +149,6 @@ void cepsDWT::setSilentThreshold(double threshold){
     m_silenceThreshold = threshold;
 }
 
-int cepsDWT::getSilentThreshold(){
+double cepsDWT::getSilentThreshold(){
     return m_silenceThreshold;
 }
