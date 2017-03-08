@@ -20,7 +20,6 @@ bool Database::open() {
 		qDebug() << "Unable to open database: " << db.databaseName();
 		return false;
 	}
-	qDebug() << "db was successfully opened";
 	return true;
 }
 
@@ -93,11 +92,13 @@ UserData *Database::getUserData( const QString &name ) {
 	}
 	int nameIndex = q.record().indexOf( "name" );
 	int realNameIndex = q.record().indexOf( "realname" );
+	int passwordIndex = q.record().indexOf( "password" );
 	if ( !q.next() ) {
 		qDebug() << "No rows found in database contining name " << name;
 	} else {
 		userData->name = q.value( nameIndex ).toString();
 		userData->realname = q.value( realNameIndex ).toString();
+		userData->password = q.value( passwordIndex ).toString();
 	}
 	return userData;
 }
