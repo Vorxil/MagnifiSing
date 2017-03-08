@@ -30,7 +30,7 @@
        <property name="sizeHint" stdset="0">
         <size>
          <width>20</width>
-         <height>40</height>
+         <height>20</height>
         </size>
        </property>
       </spacer>
@@ -43,7 +43,7 @@
         </font>
        </property>
        <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:36pt;&quot;&gt;MagnifiSing!&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;Helps you sing better!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:36pt; font-weight:600;&quot;&gt;MagnifiSing!&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:11pt; font-weight:600;&quot;&gt;Helps you sing better!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -124,6 +124,10 @@
              <pointsize>12</pointsize>
             </font>
            </property>
+           <property name="styleSheet">
+            <string notr="true">border-color: rgb(0, 0, 127); 
+background-color: rgb(187, 188, 255);</string>
+           </property>
            <property name="text">
             <string>Start singing</string>
            </property>
@@ -147,6 +151,10 @@
             <font>
              <pointsize>12</pointsize>
             </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">border-color: rgb(0, 0, 127); 
+background-color: rgb(187, 188, 255);</string>
            </property>
            <property name="text">
             <string>User profile</string>
@@ -172,6 +180,10 @@
              <pointsize>12</pointsize>
             </font>
            </property>
+           <property name="styleSheet">
+            <string notr="true">border-color: rgb(0, 0, 127); 
+background-color: rgb(187, 188, 255);</string>
+           </property>
            <property name="text">
             <string>About</string>
            </property>
@@ -195,6 +207,10 @@
             <font>
              <pointsize>12</pointsize>
             </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">border-color: rgb(0, 0, 127); 
+background-color: rgb(187, 188, 255);</string>
            </property>
            <property name="text">
             <string>Quit</string>
@@ -229,7 +245,7 @@
        <property name="sizeHint" stdset="0">
         <size>
          <width>20</width>
-         <height>20</height>
+         <height>10</height>
         </size>
        </property>
       </spacer>

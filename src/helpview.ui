@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>677</width>
-    <height>348</height>
+    <height>517</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -148,6 +148,10 @@
         <font>
          <pointsize>12</pointsize>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border-color: rgb(0, 0, 127); 
+background-color: rgb(187, 188, 255);</string>
        </property>
        <property name="text">
         <string>Back</string>

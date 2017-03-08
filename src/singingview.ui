@@ -40,6 +40,10 @@
            <pointsize>12</pointsize>
           </font>
          </property>
+         <property name="styleSheet">
+          <string notr="true">border-color: rgb(0, 0, 127); 
+background-color: rgb(187, 188, 255);</string>
+         </property>
          <property name="text">
           <string>Menu</string>
          </property>
@@ -63,6 +67,10 @@
           <font>
            <pointsize>12</pointsize>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">border-color: rgb(0, 0, 127); 
+background-color: rgb(187, 188, 255);</string>
          </property>
          <property name="text">
           <string>Back</string>
@@ -95,6 +103,10 @@
            <pointsize>12</pointsize>
           </font>
          </property>
+         <property name="styleSheet">
+          <string notr="true">border-color: rgb(0, 0, 127); 
+background-color: rgb(187, 188, 255);</string>
+         </property>
          <property name="text">
           <string>Stop</string>
          </property>
@@ -118,6 +130,10 @@
           <font>
            <pointsize>12</pointsize>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">border-color: rgb(0, 0, 127); 
+background-color: rgb(187, 188, 255);</string>
          </property>
          <property name="text">
           <string>Play</string>

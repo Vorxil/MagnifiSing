@@ -7,6 +7,9 @@ MainMenuView::MainMenuView(QWidget *parent) :
     ui(new Ui::MainMenuView)
 {
     ui->setupUi(this);
+    ui->labelMagnifiSing->setStyleSheet("QLabel { color : #191970 ; }");
+    QPixmap px(":/images/logo.png");
+    ui->label_logo->setPixmap(px.scaled(155, 155, Qt::KeepAspectRatio, Qt::SmoothTransformation));
 }
 
 MainMenuView::~MainMenuView()
