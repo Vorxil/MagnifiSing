@@ -98,7 +98,7 @@ void SingingViewController::readSamples(){
         filter.filter(samples,filtered);
         filter.downsample(filtered,downSampled,RETURN_SIZE,downFactor);
         frequency = cepsdwt.detectPitchFrequency(downSampled,fs/downFactor);
-//        qDebug() << "\nFrequency: " << frequency;
+        qDebug() << "\nFrequency: " << frequency;
     }
 }
 
