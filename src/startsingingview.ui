@@ -114,6 +114,10 @@
            <pointsize>12</pointsize>
           </font>
          </property>
+         <property name="styleSheet">
+          <string notr="true">border-color: rgb(0, 0, 127); 
+background-color: rgb(187, 188, 255);</string>
+         </property>
          <property name="text">
           <string>Browse</string>
          </property>
@@ -146,6 +150,10 @@
         <font>
          <pointsize>12</pointsize>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border-color: rgb(0, 0, 127); 
+background-color: rgb(187, 188, 255);</string>
        </property>
        <property name="text">
         <string>Load File</string>
@@ -292,6 +300,10 @@
            <pointsize>12</pointsize>
           </font>
          </property>
+         <property name="styleSheet">
+          <string notr="true">border-color: rgb(0, 0, 127); 
+background-color: rgb(187, 188, 255);</string>
+         </property>
          <property name="text">
           <string>Back</string>
          </property>
@@ -312,6 +324,10 @@
           <font>
            <pointsize>12</pointsize>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">border-color: rgb(0, 0, 127); 
+background-color: rgb(187, 188, 255);</string>
          </property>
          <property name="text">
           <string>Continue</string>

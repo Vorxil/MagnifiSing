@@ -10,11 +10,23 @@
  * @param silenceThreshold - upper RMS threshold for signal considered to be silence
  * @param peakThreshold - magnitude relative to the max peak that the base of the pitch peak must be below
  */
+
 cepsDWT::cepsDWT(int length, int dwtLevels, double silenceThreshold, double peakThreshold) : m_length(length), m_dwtLevels(dwtLevels),
-        m_silenceThreshold(silenceThreshold), m_peakThreshold(peakThreshold){
+        m_peakThreshold(peakThreshold){
+
     fftBuffer.reserve(length);
     dwtBuffer.reserve(length);
     fftObj = Aquila::FftFactory::getFft(length);
+    m_silenceThreshold = silenceThreshold;
+}
+
+cepsDWT::cepsDWT(int length, int dwtLevels, double peakThreshold) : m_length(length), m_dwtLevels(dwtLevels),
+        m_peakThreshold(peakThreshold){
+
+    fftBuffer.reserve(length);
+    dwtBuffer.reserve(length);
+    fftObj = Aquila::FftFactory::getFft(length);
+    m_silenceThreshold = 0.005;
 }
 
 cepsDWT::~cepsDWT() {}
@@ -131,4 +143,12 @@ double cepsDWT::detectPitchFrequency(const double *src, double fs) {
     //Return pitch frequency
     return fs/k;
 
+}
+
+void cepsDWT::setSilentThreshold(double threshold){
+    m_silenceThreshold = threshold;
+}
+
+int cepsDWT::getSilentThreshold(){
+    return m_silenceThreshold;
 }

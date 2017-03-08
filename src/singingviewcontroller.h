@@ -35,6 +35,7 @@ public Q_SLOTS:
     void updateMidiFile(QString filepath);
     void setToneTrack(int track);
     void setTextTrack(int track);
+    void setSilentThreshold(int threshold);
 };
 
 #endif // SINGINGVIEWCONTROLLER_H

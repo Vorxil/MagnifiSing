@@ -41,6 +41,10 @@
       <height>31</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">border-color: rgb(0, 0, 127); 
+background-color: rgb(187, 188, 255);</string>
+    </property>
     <property name="text">
      <string>Login</string>
     </property>
@@ -122,6 +126,10 @@
        <font>
         <pointsize>10</pointsize>
        </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-color: rgb(0, 0, 127); 
+background-color: rgb(187, 188, 255);</string>
       </property>
       <property name="text">
        <string>Manage User profile</string>

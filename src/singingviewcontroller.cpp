@@ -35,6 +35,8 @@ int toneEventsNumber;
 int textEventsNumber;
 int toneTrack;
 int textTrack;
+int toneTrackEnded;
+int textTrackEnded;
 int keyNumber;
 int midiTone;
 QString midiText;
@@ -54,12 +56,15 @@ SingingViewController::SingingViewController(SingingView* singingView, StartSing
     midiView = singingView->getMidiView();
     midiView->setToneInterval(-24,24);
 
+    singingView->setSilentThresholdSlider(cepsdwt.getSilentThreshold());
+
     audioInput = new audioinput();
     connect(audioInput,SIGNAL(readyRead()),this,SLOT(readSamples()));
     connect(singingView,SIGNAL(playButtonClicked()),this,SLOT(play_pause()));
     connect(singingView,SIGNAL(menuButtonClicked()),this,SLOT(stop()));
     connect(singingView,SIGNAL(stopButtonClicked()),this,SLOT(stop()));
     connect(singingView,SIGNAL(backButtonClicked()),this,SLOT(stop()));
+    connect(singingView,SIGNAL(silentThresholdSliderMoved(int)),this,SLOT(setSilentThreshold(int)));
     connect(startsingingView,SIGNAL(loadFileButtonClicked(QString)),this,SLOT(updateMidiFile(QString)));
     connect(startsingingView,SIGNAL(textTrackComboBoxIndexChanged(int)),this,SLOT(setTextTrack(int)));
     connect(startsingingView,SIGNAL(toneTrackComboBoxIndexChanged(int)),this,SLOT(setToneTrack(int)));
@@ -93,34 +98,42 @@ void SingingViewController::readSamples(){
 void SingingViewController::updateMidiView(){
     /* Add lyrics from midi file to midiview */
     /* Find next text event */
-    while((currentMidiTextEvent < textEventsNumber-1) &&((midiFile.getEvent(textTrack,currentMidiTextEvent).getP1() > 7) ||
-          (int)(midiFile.getTimeInSeconds(textTrack,currentMidiTextEvent)*1000) < (m_time.elapsed()+total_time+windowWidth/2-updateInterval))){
-        currentMidiTextEvent++;
-    }
-    /* Add the text if it is within the current time limit(depends on time resolution in midiview) */
-    if((int)(midiFile.getTimeInSeconds(textTrack,currentMidiTextEvent)*1000) <= (m_time.elapsed() + total_time + windowWidth/2 +updateInterval)){
-        midiText = "";
-        for(int i = 0;i<midiFile.getEvent(textTrack,currentMidiTextEvent).getP2();i++){
-            char ascii = midiFile.getEvent(textTrack,currentMidiTextEvent)[i+3];
-            midiText.append(ascii);
+    if(!textTrackEnded){
+        while((currentMidiTextEvent < textEventsNumber-1) &&((midiFile.getEvent(textTrack,currentMidiTextEvent).getP1() > 7) ||
+              (int)(midiFile.getTimeInSeconds(textTrack,currentMidiTextEvent)*1000) < (m_time.elapsed()+total_time+windowWidth/2-updateInterval))){
+            currentMidiTextEvent++;
         }
-        midiView->addLyrics(midiText);
-        currentMidiTextEvent++;
+        /* Add the text if it is within the current time limit(depends on time resolution in midiview) */
+        if((int)(midiFile.getTimeInSeconds(textTrack,currentMidiTextEvent)*1000) <= (m_time.elapsed() + total_time + windowWidth/2 +updateInterval)){
+            midiText = "";
+            for(int i = 0;i<midiFile.getEvent(textTrack,currentMidiTextEvent).getP2();i++){
+                char ascii = midiFile.getEvent(textTrack,currentMidiTextEvent)[i+3];
+                midiText.append(ascii);
+            }
+            midiView->addLyrics(midiText);
+            currentMidiTextEvent++;
+        }else{
+            midiView->addLyrics("");
+        }
     }else{
-        midiView->addLyrics("");
+         midiView->addLyrics("");
     }
 
     /* Add tone from midi file to midiview */
     /* find next note */
-    while((currentMidiToneEvent < toneEventsNumber-1) &&(!midiFile.getEvent(toneTrack,currentMidiToneEvent).isNoteOn() ||
-          (int)((midiFile.getTimeInSeconds(toneTrack,currentMidiToneEvent) + midiFile.getEvent(toneTrack,currentMidiToneEvent).getDurationInSeconds())*1000) < (m_time.elapsed()+total_time+windowWidth/2))){
-        currentMidiToneEvent++;
-    }
+    if(!toneTrackEnded){
+        while((currentMidiToneEvent < toneEventsNumber-1) &&(!midiFile.getEvent(toneTrack,currentMidiToneEvent).isNoteOn() ||
+              (int)((midiFile.getTimeInSeconds(toneTrack,currentMidiToneEvent) + midiFile.getEvent(toneTrack,currentMidiToneEvent).getDurationInSeconds())*1000) < (m_time.elapsed()+total_time+windowWidth/2))){
+            currentMidiToneEvent++;
+        }
 
-    /* Add the tone if it is within the current time limit(depends on time resolution in midiview) */
-    if((int)(midiFile.getTimeInSeconds(toneTrack,currentMidiToneEvent)*1000) <= (m_time.elapsed() + total_time+windowWidth/2)){
-        keyNumber = midiFile.getEvent(toneTrack,currentMidiToneEvent).getKeyNumber();
-        midiTone = keyNumber-60;
+        /* Add the tone if it is within the current time limit(depends on time resolution in midiview) */
+        if((int)(midiFile.getTimeInSeconds(toneTrack,currentMidiToneEvent)*1000) <= (m_time.elapsed() + total_time+windowWidth/2)){
+            keyNumber = midiFile.getEvent(toneTrack,currentMidiToneEvent).getKeyNumber();
+            midiTone = keyNumber-60;
+        }else{
+            midiTone = -500;
+        }
     }else{
         midiTone = -500;
     }
@@ -154,9 +167,28 @@ void SingingViewController::updateMidiView(){
     }
 
     /* Stop if reaches end of midi track */
-    if((currentMidiToneEvent >= toneEventsNumber-1) || (currentMidiTextEvent >= textEventsNumber-1)){
+    if(total_time + m_time.elapsed() >= midiFile.getTotalTimeInSeconds()*1000 + windowWidth/2){
         stop();
     }
+    if(currentMidiToneEvent >= toneEventsNumber-1){
+        toneTrackEnded = 1;
+    }
+    if(currentMidiTextEvent >= textEventsNumber-1){
+        textTrackEnded = 1;
+    }
+
+    /* Repeat part of the midi file if repeat button toggled*/
+    if(singView->repeatButtonChecked()){
+        if(total_time + m_time.elapsed() >= singView->getRepeatEnd()*1000){
+            total_time = singView->getRepeatStart()*1000;
+
+            currentMidiToneEvent = 0;
+            currentMidiTextEvent = 0;
+            m_time.restart();
+
+        }
+    }
+
 }
 
 int SingingViewController::freqToSemitone(double frequency){
@@ -180,6 +212,8 @@ void SingingViewController::stop(){
     total_time = 0;
     currentMidiToneEvent = 0;
     currentMidiTextEvent = 0;
+    textTrackEnded = 0;
+    toneTrackEnded = 0;
     midiView->setCurrentTime(0);
     singView->setPlayPauseButtonText("Play");
     for(int i=0;i<2*windowWidth/(updateInterval);i++){
@@ -211,6 +245,8 @@ void SingingViewController::updateMidiFile(QString filepath){
         startsingingView->setToneTrackComboBox(midiFile.getTrackCount(), getTrackNames());
         startsingingView->setContinueButtonEnabled(1);
         startsingingView->setMidiTextAreaText(getMidiTextAsString(midiFile));
+
+        singView->setRepeatMaximumSeconds(midiFile.getTotalTimeInSeconds());
     }else{
         qDebug() << "Error in midi import";
         startsingingView->setContinueButtonEnabled(0);
@@ -304,4 +340,8 @@ QStringList SingingViewController::getTrackNames(){
         trackList << track;
     }
     return trackList;
+}
+
+void SingingViewController::setSilentThreshold(int threshold){
+    cepsdwt.setSilentThreshold(threshold);
 }
