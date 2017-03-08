@@ -1,6 +1,7 @@
 #ifndef HAMMINGLPFILTER_H
 #define HAMMINGLPFILTER_H
 #include "lowpassfilter.h"
+#include <cmath>
 
 /**
  * @brief The HammingLPFilter class is a symmetric Hamming lowpass filter of odd length. Inherits LowPassFilter functionality.
@@ -23,7 +24,9 @@ public:
      * @param transBand - Length of the transitional band i.e. the transition from passband to stopband
      * @return - the optimal filter length
      */
-    inline static int filterLen(const double samplingFreq, const double transBand);
+    inline static int filterLen(const double samplingFreq, const double transBand) {
+        return static_cast<int>(ceil(3.3*samplingFreq/transBand) + 1 - fmod(ceil(3.3*samplingFreq/transBand), 2));
+    }
 
     /**
      * @brief HammingLPFilter - constructor of the filter

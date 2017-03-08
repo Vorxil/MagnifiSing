@@ -1,5 +1,4 @@
 #include "hamminglpfilter.h"
-#include <cmath>
 #define pi 3.1415926535897
 
 HammingLPFilter::HammingLPFilter(const double samplingFreq, const double passband, const double transBand, const int _dataLength)
@@ -8,10 +7,6 @@ HammingLPFilter::HammingLPFilter(const double samplingFreq, const double passban
 HammingLPFilter::~HammingLPFilter() {
     delete[] oldData;
     delete[] filterConsts;
-}
-
-inline int HammingLPFilter::filterLen(const double samplingFreq, const double transBand) {
-    return static_cast<int>(ceil(3.3*samplingFreq/transBand) + 1 - fmod(ceil(3.3*samplingFreq/transBand), 2));
 }
 
 double * HammingLPFilter::generateFilter(const double samplingFreq, const double passband, const double transBand) {

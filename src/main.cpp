@@ -140,7 +140,7 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    std::cout << "Writing to file " << downs << " " << downSampled.size() << " elements" << std::endl;
+    std::cout << "Writing to file " << downs << " " << size/downFactor << " elements" << std::endl;
 
     for(int i=0;i < size/downFactor ;i++) {
         io << downSampled[i] << std::endl;
